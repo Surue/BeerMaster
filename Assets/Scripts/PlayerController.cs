@@ -133,7 +133,6 @@ public class PlayerController : MonoBehaviour {
         if (isAttackingAnimation) {
             attackTimer += Time.deltaTime;
             if (attackTimer >= timeBetweenAttack) {
-                Debug.Log("Peut attaquer");
                 isAttackingAnimation = false;
                 attackTimer = 0.0f;
             }
@@ -141,13 +140,18 @@ public class PlayerController : MonoBehaviour {
     }
 
     void CheckEnemiesTouched(Vector2 directionAttack) {
-        Debug.DrawLine(transform.position, new Vector2(1,0), Color.white, 5f, false);
 
-        RaycastHit2D hit = Physics2D.Raycast(rigid.position, directionAttack, 1, 1 << LayerMask.NameToLayer("Enemies"));
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(rigid.position+(directionAttack/3), 0.5f, 1 << LayerMask.NameToLayer("Enemies"));
 
-        if(hit.collider != null) { 
-            Debug.Log("There is something in front of the object!");
-            hit.collider.gameObject.SendMessage("takeDamage", 5, SendMessageOptions.DontRequireReceiver);
+        foreach(Collider2D collider in colliders) {
+            collider.gameObject.SendMessage("TakeDamage", 5, SendMessageOptions.DontRequireReceiver);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)transform.position+Vector2.right/3, 0.5f);
+
     }
 }
