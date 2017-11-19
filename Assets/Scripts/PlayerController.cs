@@ -1,16 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
     [Header("Physics")]
     [SerializeField]
     private float speed;
+    [Header("UI")]
+    [SerializeField]
+    private Image healthBar;
     [Header("Game logic")]
     [SerializeField]
     private int health;
     [SerializeField]
     private float swordRange = 0.5f;
+    [SerializeField]
+    private float attackPoint;
 
     private Rigidbody2D rigid;
     private Animator animatorController;
@@ -49,18 +55,18 @@ public class PlayerController : MonoBehaviour {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        if (horizontalInput == 0) {
-            horizontalInput *= rigid.velocity.x * (-1);
+        if(horizontalInput == 0) {
+            horizontalInput *= rigid.velocity.x * ( -1 );
         } else {
             horizontalInput *= speed;
         }
 
-        if (verticalInput == 0) {
-            verticalInput *= rigid.velocity.y * (-1);
+        if(verticalInput == 0) {
+            verticalInput *= rigid.velocity.y * ( -1 );
         } else {
             verticalInput *= speed;
         }
-  
+
         rigid.velocity = new Vector2(horizontalInput, verticalInput);
 
         //Player Looking at cursor
@@ -70,13 +76,13 @@ public class PlayerController : MonoBehaviour {
         var diffY = rigid.position.y - mouse.y;
 
         if(Mathf.Abs(diffX) > Mathf.Abs(diffY)) {
-            if (diffX < 0) {
+            if(diffX < 0) {
                 direction = Direction.RIGHT;
             } else {
                 direction = Direction.LEFT;
             }
-        } else  {       
-            if (diffY < 0){
+        } else {
+            if(diffY < 0) {
                 direction = Direction.TOP;
             } else {
                 direction = Direction.BOTTOM;
@@ -84,10 +90,10 @@ public class PlayerController : MonoBehaviour {
         }
 
         //Construct attack direction vector
-        attackDirection = (rigid.position - mouse).normalized;
+        attackDirection = ( rigid.position - mouse ).normalized;
 
         //Player attacke with sword
-        if (Input.GetButtonDown("Fire1") && !isAttackingAnimation) {
+        if(Input.GetButtonDown("Fire1") && !isAttackingAnimation) {
             attackWithSword = true;
         }
 
@@ -99,10 +105,10 @@ public class PlayerController : MonoBehaviour {
 
         animatorController.SetFloat("speed", Mathf.Max(Mathf.Abs(horizontalInput), Mathf.Abs(verticalInput)));
 
-        switch (direction) {
+        switch(direction) {
             case Direction.LEFT:
                 animatorController.SetBool("lookingLeft", true);
-                if (attackWithSword) {
+                if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordLeft");
                     CheckEnemiesTouched();
                 }
@@ -110,7 +116,7 @@ public class PlayerController : MonoBehaviour {
 
             case Direction.RIGHT:
                 animatorController.SetBool("lookingRight", true);
-                if (attackWithSword) {
+                if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordRight");
                     CheckEnemiesTouched();
                 }
@@ -118,15 +124,15 @@ public class PlayerController : MonoBehaviour {
 
             case Direction.TOP:
                 animatorController.SetBool("lookingTop", true);
-                if (attackWithSword) {
+                if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordTop");
                     CheckEnemiesTouched();
                 }
                 break;
 
-           case Direction.BOTTOM:
+            case Direction.BOTTOM:
                 animatorController.SetBool("lookingBottom", true);
-                if (attackWithSword) {
+                if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordBottom");
                     CheckEnemiesTouched();
                 }
@@ -137,14 +143,14 @@ public class PlayerController : MonoBehaviour {
         }
 
         //Check if can attack
-        if (attackWithSword) {
+        if(attackWithSword) {
             attackWithSword = false;
             isAttackingAnimation = true;
         }
-        
-        if (isAttackingAnimation) {
+
+        if(isAttackingAnimation) {
             attackTimer += Time.deltaTime;
-            if (attackTimer >= timeBetweenAttack) {
+            if(attackTimer >= timeBetweenAttack) {
                 isAttackingAnimation = false;
                 attackTimer = 0.0f;
             }
@@ -156,8 +162,18 @@ public class PlayerController : MonoBehaviour {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(rigid.position+(attackDirection/-3), swordRange, 1 << LayerMask.NameToLayer("Enemies"));
 
         foreach(Collider2D collider in colliders) {
-            collider.gameObject.SendMessage("TakeDamage", 5, SendMessageOptions.DontRequireReceiver);
+           collider.gameObject.SendMessage("TakeDamage", attackPoint, SendMessageOptions.DontRequireReceiver); 
         }
+    }
+
+    void TakeDamage(int damage) {
+        health -= damage;
+
+        if(health <= 0) {
+            Destroy(this.gameObject);
+        }
+
+        healthBar.fillAmount = 1 - ( ( maxHealth - health ) / (float)maxHealth );
     }
 
     private void OnDrawGizmos(){
