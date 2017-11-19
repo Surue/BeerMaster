@@ -8,15 +8,22 @@ public class PlayerController : MonoBehaviour {
     private float speed;
     [Header("Game logic")]
     [SerializeField]
-    private int lifePoint;
-
+    private int health;
+    [SerializeField]
+    private float swordRange = 0.5f;
 
     private Rigidbody2D rigid;
     private Animator animatorController;
+
+    private int maxHealth;
+
+
     private bool attackWithSword = false;
     private float timeBetweenAttack = 0.375f;
     private float attackTimer = 0.0f;
     private bool isAttackingAnimation = false;
+
+    private Vector2 attackDirection; //TO DELETE FOR FINAL PROJECT
 
     private enum Direction {
         LEFT,
@@ -31,6 +38,8 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
         rigid = GetComponent<Rigidbody2D>();
         animatorController = GetComponent<Animator>();
+
+        maxHealth = health;
 	}
 	
 	// Update is called once per frame
@@ -51,7 +60,7 @@ public class PlayerController : MonoBehaviour {
         } else {
             verticalInput *= speed;
         }
-
+  
         rigid.velocity = new Vector2(horizontalInput, verticalInput);
 
         //Player Looking at cursor
@@ -74,6 +83,9 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        //Construct attack direction vector
+        attackDirection = (rigid.position - mouse).normalized;
+
         //Player attacke with sword
         if (Input.GetButtonDown("Fire1") && !isAttackingAnimation) {
             attackWithSword = true;
@@ -92,7 +104,7 @@ public class PlayerController : MonoBehaviour {
                 animatorController.SetBool("lookingLeft", true);
                 if (attackWithSword) {
                     animatorController.SetTrigger("attackSwordLeft");
-                    CheckEnemiesTouched(Vector3.left);
+                    CheckEnemiesTouched();
                 }
                 break;
 
@@ -100,7 +112,7 @@ public class PlayerController : MonoBehaviour {
                 animatorController.SetBool("lookingRight", true);
                 if (attackWithSword) {
                     animatorController.SetTrigger("attackSwordRight");
-                    CheckEnemiesTouched(Vector3.right);
+                    CheckEnemiesTouched();
                 }
                 break;
 
@@ -108,7 +120,7 @@ public class PlayerController : MonoBehaviour {
                 animatorController.SetBool("lookingTop", true);
                 if (attackWithSword) {
                     animatorController.SetTrigger("attackSwordTop");
-                    CheckEnemiesTouched(Vector3.up);
+                    CheckEnemiesTouched();
                 }
                 break;
 
@@ -116,7 +128,7 @@ public class PlayerController : MonoBehaviour {
                 animatorController.SetBool("lookingBottom", true);
                 if (attackWithSword) {
                     animatorController.SetTrigger("attackSwordBottom");
-                    CheckEnemiesTouched(Vector3.down);
+                    CheckEnemiesTouched();
                 }
                 break;
 
@@ -139,19 +151,18 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void CheckEnemiesTouched(Vector2 directionAttack) {
+    void CheckEnemiesTouched() {
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(rigid.position+(directionAttack/3), 0.5f, 1 << LayerMask.NameToLayer("Enemies"));
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(rigid.position+(attackDirection/-3), swordRange, 1 << LayerMask.NameToLayer("Enemies"));
 
         foreach(Collider2D collider in colliders) {
             collider.gameObject.SendMessage("TakeDamage", 5, SendMessageOptions.DontRequireReceiver);
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position+Vector2.right/3, 0.5f);
-
+    private void OnDrawGizmos(){
+        //Debug affichage zone attaque épée
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(rigid.position + (attackDirection / -3), swordRange);
     }
 }
