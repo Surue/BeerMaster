@@ -7,7 +7,7 @@ public class BatController : MonoBehaviour {
 
     [Header("Physics")]
     [SerializeField]
-    private float speed;
+    private float speed = 1;
     [Header("Game logic")]
     [SerializeField]
     private int health = 20;
@@ -17,6 +17,11 @@ public class BatController : MonoBehaviour {
     private GameObject sightPoint;
     [SerializeField]
     private int attackPoint = 1;
+    [Header("Loot")]
+    [SerializeField]
+    private int maxValue;
+    [SerializeField]
+    private GameObject coinPrefab;
 
     private int maxHealth;
     private Rigidbody2D rigid;
@@ -199,6 +204,7 @@ public class BatController : MonoBehaviour {
         health -= damage;
 
         if(health <= 0) {
+            DropValue();
             Destroy(this.gameObject);
         }
 
@@ -236,6 +242,15 @@ public class BatController : MonoBehaviour {
                 playerLost = true;
             }
             playerFound = false;
+        }
+    }
+
+    void DropValue() {
+        int value = (int)(Random.value * maxValue);
+        Debug.Log(value);
+        for(int i = 0; i < value; i++) {
+            Vector3 tmpPosition = (Vector3)Random.insideUnitCircle/3 + transform.position;
+            Instantiate(coinPrefab, tmpPosition, Quaternion.identity);
         }
     }
 }

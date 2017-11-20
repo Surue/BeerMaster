@@ -22,8 +22,9 @@ public class PlayerController : MonoBehaviour {
     private Animator animatorController;
 
     private int maxHealth;
+    private int treasureValue = 0;
 
-
+    //Variable for attack with sword
     private bool attackWithSword = false;
     private float timeBetweenAttack = 0.375f;
     private float attackTimer = 0.0f;
@@ -50,7 +51,6 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         //Player Mouvement
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -182,6 +182,10 @@ public class PlayerController : MonoBehaviour {
         }
 
         healthBar.fillAmount = 1 - ( ( maxHealth - health ) / (float)maxHealth );
+    }
+
+    public void AddToTreasure(int value) {
+        treasureValue += value;
     }
 
     private void OnDrawGizmos(){

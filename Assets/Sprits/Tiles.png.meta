@@ -1,20 +1,25 @@
 fileFormatVersion: 2
-guid: f1d105f6903638949b23f0c771f6ce02
-timeCreated: 1510926436
+guid: 60049f49a5ea1ae4f9851389f853615d
+timeCreated: 1511190728
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: TileSet 1_0
-    21300002: TileSet 1_1
-    21300004: TileSet 1_2
-    21300006: TileSet 1_3
-    21300008: TileSet 1_4
-    21300010: TileSet 1_5
-    21300012: TileSet 1_6
-    21300014: TileSet 1_7
-    21300016: TileSet 1_8
-    21300018: TileSet 1_9
-    21300020: TileSet 1_10
+    21300000: Tiles_0
+    21300002: Tiles_1
+    21300004: Tiles_2
+    21300006: Tiles_3
+    21300008: Tiles_4
+    21300010: Tiles_5
+    21300012: Tiles_6
+    21300014: Tiles_7
+    21300016: Tiles_8
+    21300018: Tiles_9
+    21300020: Tiles_10
+    21300022: Tiles_11
+    21300024: Tiles_12
+    21300026: Tiles_13
+    21300028: Tiles_14
+    21300030: Tiles_15
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -42,7 +47,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -52,8 +57,8 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 32
-  spriteMeshType: 0
+  spriteExtrude: 1
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -68,20 +73,20 @@ TextureImporter:
   textureFormatSet: 0
   platformSettings:
   - buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 2
-    compressionQuality: 45
+    compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Standalone
-    maxTextureSize: 128
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 2
-    compressionQuality: 45
+    compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
@@ -89,11 +94,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TileSet 1_0
+      name: Tiles_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 96
+        x: 1
+        y: 287
         width: 32
         height: 32
       alignment: 0
@@ -103,11 +108,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_1
+      name: Tiles_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
+        x: 34
+        y: 287
         width: 32
         height: 32
       alignment: 0
@@ -117,11 +122,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_2
+      name: Tiles_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 96
+        x: 67
+        y: 287
         width: 32
         height: 32
       alignment: 0
@@ -131,11 +136,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_3
+      name: Tiles_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
+        x: 100
+        y: 287
         width: 32
         height: 32
       alignment: 0
@@ -145,11 +150,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_4
+      name: Tiles_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 1
+        y: 254
         width: 32
         height: 32
       alignment: 0
@@ -159,11 +164,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_5
+      name: Tiles_5
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
+        x: 1
+        y: 221
         width: 32
         height: 32
       alignment: 0
@@ -173,11 +178,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_6
+      name: Tiles_6
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 34
+        y: 221
         width: 32
         height: 32
       alignment: 0
@@ -187,11 +192,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_7
+      name: Tiles_7
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
+        x: 67
+        y: 221
         width: 32
         height: 32
       alignment: 0
@@ -201,11 +206,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_8
+      name: Tiles_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 100
+        y: 221
         width: 32
         height: 32
       alignment: 0
@@ -215,11 +220,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_9
+      name: Tiles_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 1
+        y: 188
         width: 32
         height: 32
       alignment: 0
@@ -229,11 +234,81 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: TileSet 1_10
+      name: Tiles_10
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
+        x: 34
+        y: 188
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles_11
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 188
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles_12
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 188
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles_13
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 188
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles_14
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 188
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tiles_15
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 122
         width: 32
         height: 32
       alignment: 0

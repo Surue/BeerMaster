@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4224408564805072}
   - component: {fileID: 212489162858695220}
   - component: {fileID: 61861699217780448}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wallBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1393017208524814}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2637687, y: -2.2789702, z: 0.026577637}
+  m_LocalPosition: {x: -0.7362313, y: -2.2789702, z: 0.026577637}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,9 +98,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2040375729
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5275caed8692682409237f91665aaabd, type: 3}
+  m_Sprite: {fileID: 21300008, guid: 60049f49a5ea1ae4f9851389f853615d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
