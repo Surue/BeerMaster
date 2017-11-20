@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 114808407988361804}
   - component: {fileID: 61415997919836022}
   - component: {fileID: 50339737234877778}
+  - component: {fileID: 61649896854880996}
   m_Layer: 9
   m_Name: bat
   m_TagString: Untagged
@@ -172,6 +173,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.44, y: 0.7}
   m_EdgeRadius: 0
+--- !u!61 &61649896854880996
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1599282887827052}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.94, y: 0.76}
+  m_EdgeRadius: 0
 --- !u!95 &95481124619890296
 Animator:
   serializedVersion: 3
@@ -275,11 +301,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f80efc1704bdea4aad09e69b6d30534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 1
   health: 20
   healthBar: {fileID: 114681611037012546}
   sightPoint: {fileID: 1026232608931560}
-  attackPoint: 0
+  attackPoint: 2
 --- !u!114 &114894868179188508
 MonoBehaviour:
   m_ObjectHideFlags: 1

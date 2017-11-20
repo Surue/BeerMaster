@@ -159,10 +159,18 @@ public class PlayerController : MonoBehaviour {
 
     void CheckEnemiesTouched() {
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(rigid.position+(attackDirection/-3), swordRange, 1 << LayerMask.NameToLayer("Enemies"));
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(rigid.position + ( attackDirection / -3 ), swordRange, 1 << LayerMask.NameToLayer("Enemies"));
+        List<GameObject> enemies = new List<GameObject>();
 
+        //Check all collider and ignore if already in the list
         foreach(Collider2D collider in colliders) {
-           collider.gameObject.SendMessage("TakeDamage", attackPoint, SendMessageOptions.DontRequireReceiver); 
+            if(!enemies.Contains(collider.gameObject)) {
+                enemies.Add(collider.gameObject);
+            }
+        }
+
+        foreach(GameObject enemi in enemies) {
+            enemi.SendMessage("TakeDamage", attackPoint, SendMessageOptions.DontRequireReceiver);
         }
     }
 
