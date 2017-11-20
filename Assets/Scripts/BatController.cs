@@ -30,6 +30,7 @@ public class BatController : MonoBehaviour {
 
     //Variable for IA
     private bool playerFound;
+    private bool playerLost = false;
 
 
     private enum Direction {
@@ -70,6 +71,7 @@ public class BatController : MonoBehaviour {
         switch(state) {
             case State.IDLE:
                 currentTimer += Time.deltaTime;
+                rigid.velocity = new Vector2(0, 0);
 
                 if(playerFound) {
                     state = State.MOVING;
@@ -84,15 +86,21 @@ public class BatController : MonoBehaviour {
                 break;
 
             case State.MOVING:
-                if(Vector3.Distance(transform.position, destination) <= 0.1f) {
+                if(Vector3.Distance(transform.position, destination) <= 0.15f) {
+                    Debug.Log("Arrivé à destination");
                     state = State.IDLE;
                 } else {
                     rigid.velocity = (destination - transform.position ).normalized * speed;
                 }
 
-                if(CheckEnemiesTouched()) {
+                if(CheckPlayerTouched()) {
                     currentTimer = 0.0f;
                     state = State.ATTACKING;
+                }
+
+                if(playerLost) {
+                    state = State.IDLE;
+                    playerLost = false;
                 }
 
                 break;
@@ -111,7 +119,7 @@ public class BatController : MonoBehaviour {
         ManageAnimation();
     }
 
-    bool CheckEnemiesTouched() {
+    bool CheckPlayerTouched() {
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward / 3, 0.3f, 1 << LayerMask.NameToLayer("Player"));
 
@@ -124,22 +132,36 @@ public class BatController : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
-        //Debug affichage zone attaque épée
+        //Debug affichage zone attaque
         //Gizmos.color = Color.red;
         //Gizmos.DrawWireSphere(transform.position + sightPoint.transform.forward/3, 0.3f);
+
+        //Debug affichage destination
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(destination, 0.1f);
     }
 
     Vector3 RandomPoint() {
         bool find = false;
         Vector3 tmpDestination = new Vector3();
 
-        while(!find) {
-            tmpDestination = Random.insideUnitCircle * 1;
+        int i = 0;
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, tmpDestination, 2, 1 << LayerMask.NameToLayer("Wall"));
+        while(!find) {
+            tmpDestination = (Vector3)Random.insideUnitCircle * 2 + transform.position;
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2, 1 << LayerMask.NameToLayer("Wall"));
+            //Debug.DrawRay(transform.position, tmpDestination - transform.position, Color.red, 1.5f);
             if(hit.collider == null) {
                 find = true;
-            } 
+            }
+
+            i++;
+
+            if(i > 100) {
+                Debug.LogError("FORCE EXIT LOOP");
+                find = true;
+            }
         }
 
         return tmpDestination;
@@ -200,12 +222,19 @@ public class BatController : MonoBehaviour {
     }
 
     void CheckPlayerPresence() {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Mathf.Infinity, 1 << LayerMask.NameToLayer("Player"));
+        RaycastHit2D hitPlayer = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Mathf.Infinity, 1 << LayerMask.NameToLayer("Player"));
 
-        if(hit.collider != null) {
-            playerFound = true;
-            destination = hit.transform.position;
+        if(hitPlayer.collider != null) {
+
+            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Vector2.Distance(transform.position, hitPlayer.transform.position) , 1 << LayerMask.NameToLayer("Wall"));
+            if(hitWall.collider == null) {
+                playerFound = true;
+                destination = hitPlayer.transform.position;
+            }
         } else {
+            if(playerFound) {
+                playerLost = true;
+            }
             playerFound = false;
         }
     }
