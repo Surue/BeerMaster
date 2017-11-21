@@ -92,7 +92,6 @@ public class BatController : MonoBehaviour {
 
             case State.MOVING:
                 if(Vector3.Distance(transform.position, destination) <= 0.15f) {
-                    Debug.Log("Arrivé à destination");
                     state = State.IDLE;
                 } else {
                     rigid.velocity = (destination - transform.position ).normalized * speed;
@@ -247,7 +246,6 @@ public class BatController : MonoBehaviour {
 
     void DropValue() {
         int value = (int)(Random.value * maxValue);
-        Debug.Log(value);
         for(int i = 0; i < value; i++) {
             Vector3 tmpPosition = (Vector3)Random.insideUnitCircle/3 + transform.position;
             Instantiate(coinPrefab, tmpPosition, Quaternion.identity);
