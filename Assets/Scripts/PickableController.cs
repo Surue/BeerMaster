@@ -6,8 +6,15 @@ public class PickableController : MonoBehaviour {
 
     [SerializeField]
     private int value;
+    [SerializeField]
+    private TypeObject typeObject;
 
     private PlayerController player;
+
+    private enum TypeObject {
+        TREASURE,
+        KEY
+    }
 
     // Use this for initialization
     void Start () {
@@ -21,8 +28,21 @@ public class PickableController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.tag == "Player") {
-            player.AddToTreasure(value);
+
+            GiveObjectToPlayer();
             Destroy(this.gameObject);
+        }
+    }
+
+    void GiveObjectToPlayer() {
+        switch(typeObject) {
+            case TypeObject.TREASURE:
+                player.AddToTreasure(value);
+                break;
+
+            case TypeObject.KEY:
+                player.AddKey();
+                break;
         }
     }
 }

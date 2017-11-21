@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
     [Header("UI")]
     [SerializeField]
     private Image healthBar;
+    [SerializeField]
+    private Text keyNumberText;
     [Header("Game logic")]
     [SerializeField]
     private int health;
@@ -48,6 +50,8 @@ public class PlayerController : MonoBehaviour {
         animatorController = GetComponent<Animator>();
 
         maxHealth = health;
+
+        DisplayKeyNumber();
 	}
 	
 	// Update is called once per frame
@@ -144,7 +148,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     void CheckEnemiesTouched() {
-
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward, swordRange, 1 << LayerMask.NameToLayer("Enemies"));
         List<GameObject> enemies = new List<GameObject>();
 
@@ -158,6 +161,10 @@ public class PlayerController : MonoBehaviour {
         foreach(GameObject enemi in enemies) {
             enemi.SendMessage("TakeDamage", attackPoint, SendMessageOptions.DontRequireReceiver);
         }
+    }
+
+    public bool IsLookingAt(GameObject gameObject) {
+        return Physics2D.Raycast(transform.position, sightPoint.transform.forward, 1, 1 << LayerMask.NameToLayer("Item"));
     }
 
     void TakeDamage(int damage) {
@@ -176,6 +183,24 @@ public class PlayerController : MonoBehaviour {
 
     public void AddKey() {
         keyInInventory++;
+        DisplayKeyNumber();
+    }
+
+    public void UseKey() {
+        keyInInventory--;
+    }
+
+    public bool HasKey() {
+        return keyInInventory > 0;
+    }
+
+    void DisplayKeyNumber() {
+        if(keyInInventory == 0) {
+            keyNumberText.text = "";
+        } else {
+            keyNumberText.text = keyInInventory.ToString();
+        }
+        
     }
 
     void SetDirection() {
