@@ -17,12 +17,15 @@ public class PlayerController : MonoBehaviour {
     private float swordRange = 0.5f;
     [SerializeField]
     private float attackPoint;
+    [SerializeField]
+    private GameObject sightPoint;
 
     private Rigidbody2D rigid;
     private Animator animatorController;
 
     private int maxHealth;
     private int treasureValue = 0;
+    private int keyInInventory = 0;
 
     //Variable for attack with sword
     private bool attackWithSword = false;
@@ -30,15 +33,13 @@ public class PlayerController : MonoBehaviour {
     private float attackTimer = 0.0f;
     private bool isAttackingAnimation = false;
 
-    private Vector2 attackDirection; //TO DELETE FOR FINAL PROJECT
-
     private enum Direction {
         LEFT,
         RIGHT,
         TOP, 
         BOTTOM
     }
-
+    
     private Direction direction;
 
 	// Use this for initialization
@@ -70,27 +71,9 @@ public class PlayerController : MonoBehaviour {
         rigid.velocity = new Vector2(horizontalInput, verticalInput);
 
         //Player Looking at cursor
-        Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        var diffX = rigid.position.x - mouse.x;
-        var diffY = rigid.position.y - mouse.y;
-
-        if(Mathf.Abs(diffX) > Mathf.Abs(diffY)) {
-            if(diffX < 0) {
-                direction = Direction.RIGHT;
-            } else {
-                direction = Direction.LEFT;
-            }
-        } else {
-            if(diffY < 0) {
-                direction = Direction.TOP;
-            } else {
-                direction = Direction.BOTTOM;
-            }
-        }
-
-        //Construct attack direction vector
-        attackDirection = ( rigid.position - mouse ).normalized;
+        Vector2 pos = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position );
+        sightPoint.transform.rotation = Quaternion.LookRotation(pos);
+        SetDirection();
 
         //Player attacke with sword
         if(Input.GetButtonDown("Fire1") && !isAttackingAnimation) {
@@ -98,12 +81,29 @@ public class PlayerController : MonoBehaviour {
         }
 
         //Manage animation
+        animatorController.SetFloat("speed", Mathf.Max(Mathf.Abs(horizontalInput), Mathf.Abs(verticalInput)));
+        ManageAnimation();
+
+        //Check if can attack
+        if(attackWithSword) {
+            attackWithSword = false;
+            isAttackingAnimation = true;
+        }
+
+        if(isAttackingAnimation) {
+            attackTimer += Time.deltaTime;
+            if(attackTimer >= timeBetweenAttack) {
+                isAttackingAnimation = false;
+                attackTimer = 0.0f;
+            }
+        }
+    }
+
+    void ManageAnimation() {
         animatorController.SetBool("lookingTop", false);
         animatorController.SetBool("lookingBottom", false);
         animatorController.SetBool("lookingLeft", false);
         animatorController.SetBool("lookingRight", false);
-
-        animatorController.SetFloat("speed", Mathf.Max(Mathf.Abs(horizontalInput), Mathf.Abs(verticalInput)));
 
         switch(direction) {
             case Direction.LEFT:
@@ -141,25 +141,11 @@ public class PlayerController : MonoBehaviour {
             default:
                 break;
         }
-
-        //Check if can attack
-        if(attackWithSword) {
-            attackWithSword = false;
-            isAttackingAnimation = true;
-        }
-
-        if(isAttackingAnimation) {
-            attackTimer += Time.deltaTime;
-            if(attackTimer >= timeBetweenAttack) {
-                isAttackingAnimation = false;
-                attackTimer = 0.0f;
-            }
-        }
     }
 
     void CheckEnemiesTouched() {
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(rigid.position + ( attackDirection / -3 ), swordRange, 1 << LayerMask.NameToLayer("Enemies"));
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward, swordRange, 1 << LayerMask.NameToLayer("Enemies"));
         List<GameObject> enemies = new List<GameObject>();
 
         //Check all collider and ignore if already in the list
@@ -188,9 +174,29 @@ public class PlayerController : MonoBehaviour {
         treasureValue += value;
     }
 
+    public void AddKey() {
+        keyInInventory++;
+    }
+
+    void SetDirection() {
+        if(Mathf.Abs(sightPoint.transform.forward.x) > Mathf.Abs(sightPoint.transform.forward.y)) {
+            if(sightPoint.transform.forward.x > 0) {
+                direction = Direction.RIGHT;
+            } else {
+                direction = Direction.LEFT;
+            }
+        } else {
+            if(sightPoint.transform.forward.y > 0) {
+                direction = Direction.TOP;
+            } else {
+                direction = Direction.BOTTOM;
+            }
+        }
+    }
+
     private void OnDrawGizmos(){
         //Debug affichage zone attaque épée
         //Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(rigid.position + (attackDirection / -3), swordRange);
+        //Gizmos.DrawWireSphere(transform.position + sightPoint.transform.forward/3, swordRange);
     }
 }
