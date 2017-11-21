@@ -7,12 +7,19 @@ public class LockableController : MonoBehaviour {
 
     [SerializeField]
     private Text textToDisplay;
+    [SerializeField]
+    private Type type;
 
     private PlayerController player;
     private TreasureController treasure; //Null if is not a treasure
     private Animator animatorController;
 
     private bool IsLocked = true;
+
+    private enum Type {
+        CHEST,
+        DOOR
+    }
 
     // Use this for initialization
     void Start () {
@@ -32,7 +39,6 @@ public class LockableController : MonoBehaviour {
 
             textToDisplay.text = "";
             if(player.IsLookingAt(this.gameObject)) {
-
                 if(player.HasKey()) {
                     textToDisplay.text = "Appuyer sur F pour ouvrir";
                     if(hasPressedF) {
@@ -40,10 +46,18 @@ public class LockableController : MonoBehaviour {
                         animatorController.SetTrigger("open");
                         player.UseKey();
 
-                        if(treasure != null) {
-                            treasure.DropTreasure();
+                        switch(type) {
+                            case Type.CHEST:
+                                treasure.DropTreasure();
+                                IsLocked = false;
+                                break;
+
+                            //If it's a door => delete collider
+                            case Type.DOOR:
+                                GetComponent<Collider2D>().enabled = false;
+                                IsLocked = false;
+                                break;
                         }
-                        IsLocked = false;
                     }
                 } else {
                     textToDisplay.text = "Il vous faut une clé pour ouvrir";
