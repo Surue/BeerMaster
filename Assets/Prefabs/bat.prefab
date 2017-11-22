@@ -106,13 +106,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1026232608931560}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.70710677}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4895595255179356}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
 --- !u!4 &4895595255179356
 Transform:
   m_ObjectHideFlags: 1
@@ -120,7 +120,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1599282887827052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.756, y: -2.143, z: 0}
+  m_LocalPosition: {x: -1.66, y: -1.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224774950687703260}
@@ -306,6 +306,8 @@ MonoBehaviour:
   healthBar: {fileID: 114681611037012546}
   sightPoint: {fileID: 1026232608931560}
   attackPoint: 2
+  maxValue: 5
+  coinPrefab: {fileID: 1107770307225412, guid: eb9a2782cba7af142a8cd8c3bd043dc8, type: 2}
 --- !u!114 &114894868179188508
 MonoBehaviour:
   m_ObjectHideFlags: 1

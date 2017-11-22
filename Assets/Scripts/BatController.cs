@@ -22,22 +22,21 @@ public class BatController : MonoBehaviour {
     private int maxValue;
     [SerializeField]
     private GameObject coinPrefab;
-
+    
     private int maxHealth;
     private Rigidbody2D rigid;
     private Animator animatorController;
     private Vector3 destination;
 
+    //Variable for target
+    private GameObject target;
+    private float speedChasing;
+
     //Timer for IA
     private float currentTimer = 0.0f;
     private float idleTimer = 2.0f;
     private float attackTimer = .5f;
-
-    //Variable for IA
-    private bool playerFound;
-    private bool playerLost = false;
-
-
+    
     private enum Direction {
         LEFT,
         RIGHT,
@@ -48,6 +47,7 @@ public class BatController : MonoBehaviour {
     private enum State {
         IDLE,
         MOVING,
+        CHASE,
         ATTACKING
     }
 
@@ -59,61 +59,60 @@ public class BatController : MonoBehaviour {
         rigid = GetComponent<Rigidbody2D>();
         animatorController = GetComponent<Animator>();
         maxHealth = health;
+        speedChasing = speed * 1.5f;
     }
 
     // Update is called once per frame
     void Update() {
-        //Player Looking at cursor
-        Vector3 pos = (destination - transform.position ).normalized;
-        Quaternion rotation = Quaternion.LookRotation(pos);
-        sightPoint.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime);
         Debug.DrawRay(transform.position, sightPoint.transform.forward*10);
-        //StartCoroutine(lerpRotation(rotation));
-        //SetDirection();
+        SetDirection();
 
         //Detection of Player in sight
-        CheckPlayerPresence();
+        if(target == null) {
+            CheckPlayerPresence();
+        } else {
+            destination = target.transform.position;
+        }
 
         switch(state) {
             case State.IDLE:
                 currentTimer += Time.deltaTime;
                 rigid.velocity = new Vector2(0, 0);
 
-                if(playerFound) {
-                    state = State.MOVING;
-                    currentTimer = 0.0f;
-                } else if(currentTimer >= idleTimer) {
+                if(currentTimer >= idleTimer) {
                     currentTimer = 0.0f;
 
                     //Choose a destination
                     destination = RandomPoint();
                     state = State.MOVING;
 
-                    //Vector3 pos = ( destination - transform.position ).normalized;
-                    //Quaternion rotation = Quaternion.LookRotation(pos);
-
-                    
-                    //StartCoroutine(LerpRotation(rotation));
+                    Vector3 pos1 = ( destination - transform.position ).normalized;
+                    Quaternion rotation1 = Quaternion.LookRotation(pos1, Vector3.forward);
+                    StartCoroutine(LerpRotation(rotation1));
                 }
                 break;
 
             case State.MOVING:
                 
-                if(Vector3.Distance(transform.position, destination) <= 0.15f) {
+                if(Vector3.Distance(transform.position, destination) <= 0.3f) {
                     state = State.IDLE;
                 } else {
                     rigid.velocity = (destination - transform.position ).normalized * speed;
                 }
+
+                break;
+
+            case State.CHASE:
+                rigid.velocity = ( target.transform.position - transform.position ).normalized * speedChasing;
 
                 if(CheckPlayerTouched()) {
                     currentTimer = 0.0f;
                     state = State.ATTACKING;
                 }
 
-                if(playerLost) {
-                    state = State.IDLE;
-                    playerLost = false;
-                }
+                Vector3 pos = ( destination - transform.position ).normalized;
+                Quaternion rotation = Quaternion.LookRotation(pos);
+                sightPoint.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime);
 
                 break;
 
@@ -122,7 +121,7 @@ public class BatController : MonoBehaviour {
 
                 currentTimer += Time.deltaTime;
                 if(currentTimer >= attackTimer) {
-                    state = State.MOVING;
+                    state = State.CHASE;
                 }
                 break;
         }
@@ -135,14 +134,13 @@ public class BatController : MonoBehaviour {
         float StartTime = Time.time;
         float LerpTime = 1.0f;
         float EndTime = StartTime + LerpTime;
-
-        while(Time.time < EndTime && !playerFound) {
+        while(Time.time < EndTime) {
             float timeProgressed = ( Time.time - StartTime ) / LerpTime;  // this will be 0 at the beginning and 1 at the end.
-            sightPoint.transform.rotation = Quaternion.Slerp(sightPoint.transform.rotation, Quaternion.Euler(rotation.eulerAngles.x, 90, 0), timeProgressed);
+
+            sightPoint.transform.rotation = Quaternion.Slerp(sightPoint.transform.rotation, rotation, timeProgressed);
 
             yield return new WaitForFixedUpdate();
         }
-
     }
 
     bool CheckPlayerTouched() {
@@ -222,6 +220,14 @@ public class BatController : MonoBehaviour {
     }
 
     void TakeDamage(int damage) {
+        if(target == null) {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.0f, 1 << LayerMask.NameToLayer("Player"));
+
+            foreach(Collider2D collider in colliders) {
+                target = collider.gameObject;
+                state = State.CHASE;
+            }
+        }
         health -= damage;
 
         if(health <= 0) {
@@ -256,14 +262,10 @@ public class BatController : MonoBehaviour {
             RaycastHit2D hitWall = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Vector2.Distance(transform.position, hitPlayer.transform.position) , 1 << LayerMask.NameToLayer("Wall"));
             if(hitWall.collider == null) {
                 Debug.Log("Player vu");
-                playerFound = true;
+                target = hitPlayer.collider.gameObject;
+                state = State.CHASE;
                 destination = hitPlayer.transform.position;
             }
-        } else {
-            if(playerFound) {
-                playerLost = true;
-            }
-            playerFound = false;
         }
     }
 

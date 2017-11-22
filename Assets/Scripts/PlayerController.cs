@@ -224,4 +224,6 @@ public class PlayerController : MonoBehaviour {
         //Gizmos.color = Color.red;
         //Gizmos.DrawWireSphere(transform.position + sightPoint.transform.forward/3, swordRange);
     }
+
+
 }
