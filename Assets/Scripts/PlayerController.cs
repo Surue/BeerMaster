@@ -188,19 +188,19 @@ public class PlayerController : MonoBehaviour {
 
     public void UseKey() {
         keyInInventory--;
+        DisplayKeyNumber();
     }
 
     public bool HasKey() {
         return keyInInventory > 0;
     }
-
+    
     void DisplayKeyNumber() {
         if(keyInInventory == 0) {
             keyNumberText.text = "";
         } else {
             keyNumberText.text = keyInInventory.ToString();
         }
-        
     }
 
     void SetDirection() {

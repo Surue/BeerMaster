@@ -66,9 +66,10 @@ public class BatController : MonoBehaviour {
         //Player Looking at cursor
         Vector3 pos = (destination - transform.position ).normalized;
         Quaternion rotation = Quaternion.LookRotation(pos);
-        sightPoint.transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 1);
-
-        SetDirection();
+        sightPoint.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime);
+        Debug.DrawRay(transform.position, sightPoint.transform.forward*10);
+        //StartCoroutine(lerpRotation(rotation));
+        //SetDirection();
 
         //Detection of Player in sight
         CheckPlayerPresence();
@@ -87,10 +88,17 @@ public class BatController : MonoBehaviour {
                     //Choose a destination
                     destination = RandomPoint();
                     state = State.MOVING;
+
+                    //Vector3 pos = ( destination - transform.position ).normalized;
+                    //Quaternion rotation = Quaternion.LookRotation(pos);
+
+                    
+                    //StartCoroutine(LerpRotation(rotation));
                 }
                 break;
 
             case State.MOVING:
+                
                 if(Vector3.Distance(transform.position, destination) <= 0.15f) {
                     state = State.IDLE;
                 } else {
@@ -121,6 +129,20 @@ public class BatController : MonoBehaviour {
 
         //Manage animation
         ManageAnimation();
+    }
+
+    IEnumerator LerpRotation(Quaternion rotation) {
+        float StartTime = Time.time;
+        float LerpTime = 1.0f;
+        float EndTime = StartTime + LerpTime;
+
+        while(Time.time < EndTime && !playerFound) {
+            float timeProgressed = ( Time.time - StartTime ) / LerpTime;  // this will be 0 at the beginning and 1 at the end.
+            sightPoint.transform.rotation = Quaternion.Slerp(sightPoint.transform.rotation, Quaternion.Euler(rotation.eulerAngles.x, 90, 0), timeProgressed);
+
+            yield return new WaitForFixedUpdate();
+        }
+
     }
 
     bool CheckPlayerTouched() {
@@ -228,11 +250,12 @@ public class BatController : MonoBehaviour {
 
     void CheckPlayerPresence() {
         RaycastHit2D hitPlayer = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Mathf.Infinity, 1 << LayerMask.NameToLayer("Player"));
-
+        Debug.DrawRay(transform.position, sightPoint.transform.forward);
         if(hitPlayer.collider != null) {
 
             RaycastHit2D hitWall = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Vector2.Distance(transform.position, hitPlayer.transform.position) , 1 << LayerMask.NameToLayer("Wall"));
             if(hitWall.collider == null) {
+                Debug.Log("Player vu");
                 playerFound = true;
                 destination = hitPlayer.transform.position;
             }
