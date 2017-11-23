@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour {
         SetDirection();
 
         //Player attacke with sword
-        if(Input.GetButtonDown("Fire1") && !isAttackingAnimation) {
+        if(Input.GetButtonDown("Fire1") || Input.GetKeyDown("joystick button 1") && !isAttackingAnimation) {
             attackWithSword = true;
         }
 
