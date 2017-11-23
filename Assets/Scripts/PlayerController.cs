@@ -90,14 +90,7 @@ public class PlayerController : MonoBehaviour {
 
         //Player Looking at cursor and select if using mouse position or joystick 
         Vector2 pos;
-        bool hasJoystick = false;
-        for(int i = 0; i < Input.GetJoystickNames().Length; i++) {
-            if(Input.GetJoystickNames()[i] != null && Input.GetJoystickNames()[i] != "") {
-                hasJoystick = true;
-                break;
-            }
-        }
-        if(hasJoystick) {
+        if(IsThereJoystick()) {
             pos = new Vector3(Input.GetAxis("3rd Axis"), Input.GetAxis("4th Axis") * ( -1 ), 0);
             Debug.Log(Input.GetAxis("3rd Axis")+" "+Input.GetAxis("4th Axis"));
             if((Input.GetAxis("3rd Axis") <= 0.05 && Input.GetAxis("3rd Axis") >= -0.05)) {
@@ -261,5 +254,13 @@ public class PlayerController : MonoBehaviour {
         //Gizmos.DrawWireSphere(transform.position + sightPoint.transform.forward/3, swordRange);
     }
 
+    bool IsThereJoystick() {
+        for(int i = 0; i < Input.GetJoystickNames().Length; i++) {
+            if(Input.GetJoystickNames()[i] != null && Input.GetJoystickNames()[i] != "") {
+                return true;
+            }
+        }
 
+        return false;
+    }
 }
