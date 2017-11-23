@@ -33,14 +33,14 @@ public class LockableController : MonoBehaviour {
 	void Update () {
         if(IsLocked) {
             bool hasPressedF = false;
-            if(Input.GetKeyDown("f")) {
+            if(Input.GetButtonDown("Use")) {
                 hasPressedF = true;
             }
 
             textToDisplay.text = "";
             if(player.IsLookingAt(this.gameObject)) {
                 if(player.HasKey()) {
-                    textToDisplay.text = "Appuyer sur F pour ouvrir";
+                    textToDisplay.text = "Appuyer sur F ou L1 pour ouvrir";
                     if(hasPressedF) {
                         textToDisplay.text = "";
                         animatorController.SetTrigger("open");

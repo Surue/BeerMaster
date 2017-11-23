@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour {
     private float speed;
     [Header("UI")]
     [SerializeField]
-    private Image healthBar;
-    [SerializeField]
     private Text keyNumberText;
     [Header("Game logic")]
     [SerializeField]
@@ -26,6 +24,7 @@ public class PlayerController : MonoBehaviour {
     private Animator animatorController;
 
     private int maxHealth;
+    private HealthBarController healthBarController;
     private int treasureValue = 0;
     private int keyInInventory = 0;
 
@@ -49,6 +48,11 @@ public class PlayerController : MonoBehaviour {
         rigid = GetComponent<Rigidbody2D>();
         animatorController = GetComponent<Animator>();
 
+        healthBarController = GetComponent<HealthBarController>();
+        if(healthBarController == null) {
+            Debug.LogError("A health bar is missing");
+        }
+        healthBarController.SetMaxHealth(health);
         maxHealth = health;
 
         DisplayKeyNumber();
@@ -74,13 +78,45 @@ public class PlayerController : MonoBehaviour {
 
         rigid.velocity = new Vector2(horizontalInput, verticalInput);
 
-        //Player Looking at cursor
-        Vector2 pos = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position );
+
+        //if(Input.GetJoystickNames().Length != 0) {
+        //    Debug.Log(Input.GetAxis("3rd Axis") + " " + Input.GetAxis("4th Axis"));
+        //    Vector2 pos = ( new Vector3(Input.GetAxis("3rd Axis"), Input.GetAxis("4th Axis"), 0) - transform.position );
+        //    sightPoint.transform.rotation = Quaternion.LookRotation(pos);
+        //} else {
+        //    Vector2 pos = ( Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position );
+        //    sightPoint.transform.rotation = Quaternion.LookRotation(pos);
+        //}
+
+        //Player Looking at cursor and select if using mouse position or joystick 
+        Vector2 pos;
+        bool hasJoystick = false;
+        for(int i = 0; i < Input.GetJoystickNames().Length; i++) {
+            if(Input.GetJoystickNames()[i] != null && Input.GetJoystickNames()[i] != "") {
+                hasJoystick = true;
+                break;
+            }
+        }
+        if(hasJoystick) {
+            pos = new Vector3(Input.GetAxis("3rd Axis"), Input.GetAxis("4th Axis") * ( -1 ), 0);
+            Debug.Log(Input.GetAxis("3rd Axis")+" "+Input.GetAxis("4th Axis"));
+            if((Input.GetAxis("3rd Axis") <= 0.05 && Input.GetAxis("3rd Axis") >= -0.05)) {
+                Debug.Log("Change x");
+                pos.x = horizontalInput;
+            }
+                
+            if ((Input.GetAxis("4th Axis") * ( -1 ) <= 0.05 && Input.GetAxis("4th Axis") * ( -1 ) >= -0.05 )) {
+                Debug.Log("Change y");
+                pos.y = verticalInput;
+            }
+        } else {
+            pos = ( Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position ).normalized;
+        }
         sightPoint.transform.rotation = Quaternion.LookRotation(pos);
         SetDirection();
 
         //Player attacke with sword
-        if(Input.GetButtonDown("Fire1") && !isAttackingAnimation) {
+        if(Input.GetButtonDown("Fire1")  && !isAttackingAnimation) {
             attackWithSword = true;
         }
 
@@ -174,7 +210,7 @@ public class PlayerController : MonoBehaviour {
             Destroy(this.gameObject);
         }
 
-        healthBar.fillAmount = 1 - ( ( maxHealth - health ) / (float)maxHealth );
+        healthBarController.UpdateHealthBar(health);
     }
 
     public void AddToTreasure(int value) {

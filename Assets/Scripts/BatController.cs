@@ -12,8 +12,6 @@ public class BatController : MonoBehaviour {
     [SerializeField]
     private int health = 20;
     [SerializeField]
-    private Image healthBar;
-    [SerializeField]
     private GameObject sightPoint;
     [SerializeField]
     private int attackPoint = 1;
@@ -24,6 +22,7 @@ public class BatController : MonoBehaviour {
     private GameObject coinPrefab;
     
     private int maxHealth;
+    private HealthBarController healthBarController;
     private Rigidbody2D rigid;
     private Animator animatorController;
     private Vector3 destination;
@@ -58,13 +57,17 @@ public class BatController : MonoBehaviour {
     void Start() {
         rigid = GetComponent<Rigidbody2D>();
         animatorController = GetComponent<Animator>();
-        maxHealth = health;
+        healthBarController = GetComponent<HealthBarController>();
+        if(healthBarController == null) {
+            Debug.LogError("A health bar is missing");
+        }
+        healthBarController.SetMaxHealth(health);
         speedChasing = speed * 1.5f;
     }
 
     // Update is called once per frame
     void Update() {
-        Debug.DrawRay(transform.position, sightPoint.transform.forward*10);
+        Debug.DrawRay(transform.position, sightPoint.transform.forward);
         SetDirection();
 
         //Detection of Player in sight
@@ -235,7 +238,7 @@ public class BatController : MonoBehaviour {
             Destroy(this.gameObject);
         }
 
-        healthBar.fillAmount = 1 - ( ( maxHealth - health ) / (float)maxHealth );
+        healthBarController.UpdateHealthBar(health);
     }
 
     void SetDirection() {
