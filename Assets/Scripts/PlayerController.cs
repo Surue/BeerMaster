@@ -109,6 +109,9 @@ public class PlayerController : MonoBehaviour {
         SetDirection();
 
         //Player attacke with sword
+        if(Input.GetButtonDown("Fire1") && !isAttackingAnimation) {
+            attackWithSword = true;
+        }
 
         //Manage animation
         animatorController.SetFloat("speed", Mathf.Max(Mathf.Abs(horizontalInput), Mathf.Abs(verticalInput)));
