@@ -151,7 +151,7 @@ public class BatController : MonoBehaviour {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward / 3, 0.3f, 1 << LayerMask.NameToLayer("Player"));
 
         foreach(Collider2D collider in colliders) {
-            collider.gameObject.SendMessage("TakeDamage", attackPoint, SendMessageOptions.DontRequireReceiver);
+            collider.gameObject.GetComponent<PlayerController>().TakeDamage(attackPoint);
             return true;
         }
 

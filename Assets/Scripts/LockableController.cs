@@ -11,6 +11,7 @@ public class LockableController : MonoBehaviour {
     private Type type;
 
     private PlayerController player;
+    private KeyController playerKeyController;
     private TreasureController treasure; //Null if is not a treasure
     private Animator animatorController;
 
@@ -25,6 +26,7 @@ public class LockableController : MonoBehaviour {
     void Start () {
         animatorController = GetComponent<Animator>();
         player = FindObjectOfType<PlayerController>();
+        playerKeyController = player.GetComponent<KeyController>();
 
         treasure = GetComponent<TreasureController>();
     }
@@ -39,12 +41,12 @@ public class LockableController : MonoBehaviour {
 
             textToDisplay.text = "";
             if(player.IsLookingAt(this.gameObject)) {
-                if(player.HasKey()) {
+                if(playerKeyController.HasKey()) {
                     textToDisplay.text = "Appuyer sur F ou L1 pour ouvrir";
                     if(hasPressedF) {
                         textToDisplay.text = "";
                         animatorController.SetTrigger("open");
-                        player.UseKey();
+                        playerKeyController.UseKey();
 
                         switch(type) {
                             case Type.CHEST:

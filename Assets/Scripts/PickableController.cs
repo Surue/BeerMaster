@@ -10,6 +10,7 @@ public class PickableController : MonoBehaviour {
     private TypeObject typeObject;
 
     private PlayerController player;
+    private KeyController playerKeyController;
 
     private enum TypeObject {
         TREASURE,
@@ -19,6 +20,7 @@ public class PickableController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         player = FindObjectOfType<PlayerController>();
+        playerKeyController = player.GetComponent<KeyController>();
 	}
 	
 	// Update is called once per frame
@@ -41,7 +43,7 @@ public class PickableController : MonoBehaviour {
                 break;
 
             case TypeObject.KEY:
-                player.AddKey();
+                playerKeyController.AddKey();
                 break;
         }
     }

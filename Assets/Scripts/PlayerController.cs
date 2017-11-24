@@ -1,22 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
     [Header("Physics")]
     [SerializeField]
     private float speed;
-    [Header("UI")]
-    [SerializeField]
-    private Text keyNumberText;
     [Header("Game logic")]
     [SerializeField]
     private int health;
     [SerializeField]
     private float swordRange = 0.5f;
     [SerializeField]
-    private float attackPoint;
+    private int attackPoint;
     [SerializeField]
     private GameObject sightPoint;
 
@@ -26,7 +22,8 @@ public class PlayerController : MonoBehaviour {
     private int maxHealth;
     private HealthBarController healthBarController;
     private int treasureValue = 0;
-    private int keyInInventory = 0;
+
+    private KeyController keyController;
 
     //Variable for attack with sword
     private bool attackWithSword = false;
@@ -53,9 +50,14 @@ public class PlayerController : MonoBehaviour {
             Debug.LogError("A health bar is missing");
         }
         healthBarController.SetMaxHealth(health);
+
         maxHealth = health;
 
-        DisplayKeyNumber();
+        keyController = GetComponent<KeyController>();
+        if(keyController == null)
+        {
+            Debug.LogError("A key controller is missing");
+        }
 	}
 	
 	// Update is called once per frame
@@ -77,16 +79,6 @@ public class PlayerController : MonoBehaviour {
         }
 
         rigid.velocity = new Vector2(horizontalInput, verticalInput);
-
-
-        //if(Input.GetJoystickNames().Length != 0) {
-        //    Debug.Log(Input.GetAxis("3rd Axis") + " " + Input.GetAxis("4th Axis"));
-        //    Vector2 pos = ( new Vector3(Input.GetAxis("3rd Axis"), Input.GetAxis("4th Axis"), 0) - transform.position );
-        //    sightPoint.transform.rotation = Quaternion.LookRotation(pos);
-        //} else {
-        //    Vector2 pos = ( Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position );
-        //    sightPoint.transform.rotation = Quaternion.LookRotation(pos);
-        //}
 
         //Player Looking at cursor and select if using mouse position or joystick 
         Vector2 pos;
@@ -176,6 +168,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    //Call when player attack, if a monster is detected then it take damage
     void CheckEnemiesTouched() {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward, swordRange, 1 << LayerMask.NameToLayer("Enemies"));
         List<GameObject> enemies = new List<GameObject>();
@@ -188,6 +181,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         foreach(GameObject enemi in enemies) {
+            enemi.gameObject.GetComponent<MonsterController>().TakeDamage(attackPoint);
             enemi.SendMessage("TakeDamage", attackPoint, SendMessageOptions.DontRequireReceiver);
         }
     }
@@ -196,7 +190,7 @@ public class PlayerController : MonoBehaviour {
         return Physics2D.Raycast(transform.position, sightPoint.transform.forward, 1, 1 << LayerMask.NameToLayer("Item"));
     }
 
-    void TakeDamage(int damage) {
+    public void TakeDamage(int damage) {
         health -= damage;
 
         if(health <= 0) {
@@ -208,28 +202,6 @@ public class PlayerController : MonoBehaviour {
 
     public void AddToTreasure(int value) {
         treasureValue += value;
-    }
-
-    public void AddKey() {
-        keyInInventory++;
-        DisplayKeyNumber();
-    }
-
-    public void UseKey() {
-        keyInInventory--;
-        DisplayKeyNumber();
-    }
-
-    public bool HasKey() {
-        return keyInInventory > 0;
-    }
-    
-    void DisplayKeyNumber() {
-        if(keyInInventory == 0) {
-            keyNumberText.text = "";
-        } else {
-            keyNumberText.text = keyInInventory.ToString();
-        }
     }
 
     void SetDirection() {
@@ -248,12 +220,14 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    //Use in Degug to draw in gizmos
     private void OnDrawGizmos(){
         //Debug affichage zone attaque épée
         //Gizmos.color = Color.red;
         //Gizmos.DrawWireSphere(transform.position + sightPoint.transform.forward/3, swordRange);
     }
 
+    //Search a joystick, if yes => true, else => false
     bool IsThereJoystick() {
         for(int i = 0; i < Input.GetJoystickNames().Length; i++) {
             if(Input.GetJoystickNames()[i] != null && Input.GetJoystickNames()[i] != "") {
