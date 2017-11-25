@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour {
     void CheckEnemiesTouched() {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward, swordRange, 1 << LayerMask.NameToLayer("Enemies"));
         List<GameObject> enemies = new List<GameObject>();
-
+        
         //Check all collider and ignore if already in the list
         foreach(Collider2D collider in colliders) {
             if(!enemies.Contains(collider.gameObject)) {
@@ -181,8 +181,13 @@ public class PlayerController : MonoBehaviour {
         }
 
         foreach(GameObject enemi in enemies) {
-            enemi.gameObject.GetComponent<MonsterController>().TakeDamage(attackPoint);
-            enemi.SendMessage("TakeDamage", attackPoint, SendMessageOptions.DontRequireReceiver);
+            if(enemi.tag == "Spider") {
+                enemi.GetComponent<SpiderController>().TakeDamage(attackPoint);
+            }
+            
+            if(enemi.tag == "Bat") {
+                enemi.GetComponent<BatController>().TakeDamage(attackPoint);
+            }
         }
     }
 

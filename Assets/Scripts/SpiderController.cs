@@ -6,8 +6,16 @@ public class SpiderController : MonsterController {
 
 	// Use this for initialization
 	void Start () {
-        
-	}
+        rigid = GetComponent<Rigidbody2D>();
+
+        healthBarController = GetComponent<HealthBarController>();
+        if (healthBarController == null) {
+            Debug.LogError("A health bar is missing");
+        }
+        healthBarController.SetMaxHealth(health);
+
+        animatorController = GetComponent<Animator>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -52,7 +60,7 @@ public class SpiderController : MonsterController {
                 break;
 
             case State.CHASE:
-                rigid.velocity = (target.transform.position - transform.position).normalized * speedChasing;
+                rigid.velocity = (target.transform.position - transform.position).normalized * speed;
 
                 if (CheckPlayerTouched()) {
                     currentTimer = 0.0f;
@@ -74,8 +82,8 @@ public class SpiderController : MonsterController {
                 }
                 break;
         }
-
         //Manage animation
+        animatorController.SetFloat("speed", Mathf.Max(Mathf.Abs(rigid.velocity.x), Mathf.Abs(rigid.velocity.y)));
         ManageAnimation();
     }
 

@@ -3,65 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BatController : MonoBehaviour {
-
-    [Header("Physics")]
-    [SerializeField]
-    private float speed = 1;
-    [Header("Game logic")]
-    [SerializeField]
-    private int health = 20;
-    [SerializeField]
-    private GameObject sightPoint;
-    [SerializeField]
-    private int attackPoint = 1;
-    [Header("Loot")]
-    [SerializeField]
-    private int maxValue;
-    [SerializeField]
-    private GameObject coinPrefab;
-    
-    private int maxHealth;
-    private HealthBarController healthBarController;
-    private Rigidbody2D rigid;
-    private Animator animatorController;
-    private Vector3 destination;
+public class BatController : MonsterController {
 
     //Variable for target
-    private GameObject target;
     private float speedChasing;
-
-    //Timer for IA
-    private float currentTimer = 0.0f;
-    private float idleTimer = 2.0f;
-    private float attackTimer = .5f;
-    
-    private enum Direction {
-        LEFT,
-        RIGHT,
-        TOP,
-        BOTTOM
-    }
-
-    private enum State {
-        IDLE,
-        MOVING,
-        CHASE,
-        ATTACKING
-    }
-
-    private Direction direction;
-    private State state = State.IDLE;
 
     // Use this for initialization
     void Start() {
         rigid = GetComponent<Rigidbody2D>();
+
         animatorController = GetComponent<Animator>();
+
         healthBarController = GetComponent<HealthBarController>();
         if(healthBarController == null) {
             Debug.LogError("A health bar is missing");
         }
         healthBarController.SetMaxHealth(health);
+
         speedChasing = speed * 1.5f;
     }
 
@@ -133,31 +91,6 @@ public class BatController : MonoBehaviour {
         ManageAnimation();
     }
 
-    IEnumerator LerpRotation(Quaternion rotation) {
-        float StartTime = Time.time;
-        float LerpTime = 1.0f;
-        float EndTime = StartTime + LerpTime;
-        while(Time.time < EndTime) {
-            float timeProgressed = ( Time.time - StartTime ) / LerpTime;  // this will be 0 at the beginning and 1 at the end.
-
-            sightPoint.transform.rotation = Quaternion.Slerp(sightPoint.transform.rotation, rotation, timeProgressed);
-
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
-    bool CheckPlayerTouched() {
-
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward / 3, 0.3f, 1 << LayerMask.NameToLayer("Player"));
-
-        foreach(Collider2D collider in colliders) {
-            collider.gameObject.GetComponent<PlayerController>().TakeDamage(attackPoint);
-            return true;
-        }
-
-        return false;
-    }
-
     private void OnDrawGizmos() {
         //Debug affichage zone attaque
         //Gizmos.color = Color.red;
@@ -194,89 +127,17 @@ public class BatController : MonoBehaviour {
         return tmpDestination;
     }
 
-    void ManageAnimation() {
-        animatorController.SetBool("lookingUp", false);
-        animatorController.SetBool("lookingDown", false);
-        animatorController.SetBool("lookingLeft", false);
-        animatorController.SetBool("lookingRight", false);
-
-        switch(direction) {
-            case Direction.LEFT:
-                animatorController.SetBool("lookingLeft", true);
-                break;
-
-            case Direction.RIGHT:
-                animatorController.SetBool("lookingRight", true);
-                break;
-
-            case Direction.TOP:
-                animatorController.SetBool("lookingUp", true);
-                break;
-
-            case Direction.BOTTOM:
-                animatorController.SetBool("lookingDown", true);
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    void TakeDamage(int damage) {
-        if(target == null) {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.0f, 1 << LayerMask.NameToLayer("Player"));
-
-            foreach(Collider2D collider in colliders) {
-                target = collider.gameObject;
-                state = State.CHASE;
-            }
-        }
-        health -= damage;
-
-        if(health <= 0) {
-            DropValue();
-            Destroy(this.gameObject);
-        }
-
-        healthBarController.UpdateHealthBar(health);
-    }
-
-    void SetDirection() {
-        if(Mathf.Abs(sightPoint.transform.forward.x) > Mathf.Abs(sightPoint.transform.forward.y)) {
-            if(sightPoint.transform.forward.x > 0) {
-                direction = Direction.RIGHT;
-            } else {
-                direction = Direction.LEFT;
-            }
-        } else {
-            if(sightPoint.transform.forward.y > 0) {
-                direction = Direction.TOP;
-            } else {
-                direction = Direction.BOTTOM;
-            }
-        }
-    }
-
     void CheckPlayerPresence() {
         RaycastHit2D hitPlayer = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Mathf.Infinity, 1 << LayerMask.NameToLayer("Player"));
         Debug.DrawRay(transform.position, sightPoint.transform.forward);
-        if(hitPlayer.collider != null) {
+        if (hitPlayer.collider != null) {
 
-            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Vector2.Distance(transform.position, hitPlayer.transform.position) , 1 << LayerMask.NameToLayer("Wall"));
-            if(hitWall.collider == null) {
-                Debug.Log("Player vu");
-                target = hitPlayer.collider.gameObject;
+            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Vector2.Distance(transform.position, hitPlayer.transform.position), 1 << LayerMask.NameToLayer("Wall"));
+            if (hitWall.collider == null) {
+                target = hitPlayer.collider.gameObject.GetComponent<PlayerController>();
                 state = State.CHASE;
                 destination = hitPlayer.transform.position;
             }
-        }
-    }
-
-    void DropValue() {
-        int value = (int)(Random.value * maxValue);
-        for(int i = 0; i < value; i++) {
-            Vector3 tmpPosition = (Vector3)Random.insideUnitCircle/3 + transform.position;
-            Instantiate(coinPrefab, tmpPosition, Quaternion.identity);
         }
     }
 }

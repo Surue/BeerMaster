@@ -6,10 +6,10 @@ public class MonsterController : MonoBehaviour {
 
     [Header("Physics")]
     [SerializeField]
-    private float speed = 1;
+    protected float speed = 1;
     [Header("Game logic")]
     [SerializeField]
-    private int health = 20;
+    protected int health = 20;
     [SerializeField]
     protected GameObject sightPoint;
     [SerializeField]
@@ -21,9 +21,9 @@ public class MonsterController : MonoBehaviour {
     private GameObject coinPrefab;
 
     private int maxHealth;
-    private HealthBarController healthBarController;
+    protected HealthBarController healthBarController;
     protected Rigidbody2D rigid;
-    private Animator animatorController;
+    protected Animator animatorController;
     protected Vector3 destination;
 
     //Variable for target
@@ -37,8 +37,8 @@ public class MonsterController : MonoBehaviour {
     protected enum Direction {
         LEFT,
         RIGHT,
-        TOP,
-        BOTTOM
+        UP,
+        DOWN
     }
 
     protected enum State {
@@ -53,13 +53,6 @@ public class MonsterController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        rigid = GetComponent<Rigidbody2D>();
-        animatorController = GetComponent<Animator>();
-        healthBarController = GetComponent<HealthBarController>();
-        if (healthBarController == null) {
-            Debug.LogError("A health bar is missing");
-        }
-        healthBarController.SetMaxHealth(health);
     }
 
     // Update is called once per frame
@@ -91,10 +84,10 @@ public class MonsterController : MonoBehaviour {
         }
         else {
             if (sightPoint.transform.forward.y > 0) {
-                direction = Direction.TOP;
+                direction = Direction.UP;
             }
             else {
-                direction = Direction.BOTTOM;
+                direction = Direction.DOWN;
             }
         }
     }
@@ -109,7 +102,6 @@ public class MonsterController : MonoBehaviour {
             }
         }
         health -= damage;
-
         if (health <= 0) {
             DropTreasure();
             Destroy(this.gameObject);
@@ -142,7 +134,7 @@ public class MonsterController : MonoBehaviour {
     }
 
     //When monster moving, test if the player is near, if it's the case then the player take damage
-    bool CheckPlayerTouched() {
+    protected bool CheckPlayerTouched() {
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward / 3, 0.3f, 1 << LayerMask.NameToLayer("Player"));
 
@@ -152,5 +144,34 @@ public class MonsterController : MonoBehaviour {
         }
 
         return false;
+    }
+
+    protected void ManageAnimation() {
+
+        animatorController.SetBool("isLookingUp", false);
+        animatorController.SetBool("isLookingDown", false);
+        animatorController.SetBool("isLookingLeft", false);
+        animatorController.SetBool("isLookingRight", false);
+
+        switch (direction) {
+            case Direction.LEFT:
+                animatorController.SetBool("isLookingLeft", true);
+                break;
+
+            case Direction.RIGHT:
+                animatorController.SetBool("isLookingRight", true);
+                break;
+
+            case Direction.UP:
+                animatorController.SetBool("isLookingUp", true);
+                break;
+
+            case Direction.DOWN:
+                animatorController.SetBool("isLookingDown", true);
+                break;
+
+            default:
+                break;
+        }
     }
 }
