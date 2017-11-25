@@ -36,8 +36,8 @@ public class PlayerController : MonoBehaviour {
     private enum Direction {
         LEFT,
         RIGHT,
-        TOP, 
-        BOTTOM
+        UP, 
+        DOWN
     }
     
     private Direction direction;
@@ -45,8 +45,19 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         gameManager = FindObjectOfType<GameManager>();
+        if(gameManager == null) {
+            Debug.LogError("A GameManger is missing");
+        }
+
         rigid = GetComponent<Rigidbody2D>();
+        if(rigid == null) {
+            Debug.LogError("A Rigidbody 2D is missing");
+        }
+
         animatorController = GetComponent<Animator>();
+        if (animatorController == null) {
+            Debug.LogError("A Animatore is missing");
+        }
 
         healthBarController = GetComponent<HealthBarController>();
         if(healthBarController == null) {
@@ -61,6 +72,9 @@ public class PlayerController : MonoBehaviour {
         {
             Debug.LogError("A key controller is missing");
         }
+
+        //the player position is set to the startLevel point
+        rigid.position = GameObject.FindGameObjectWithTag("StartLevel").transform.position;
 	}
 	
 	// Update is called once per frame
@@ -150,7 +164,7 @@ public class PlayerController : MonoBehaviour {
                 }
                 break;
 
-            case Direction.TOP:
+            case Direction.UP:
                 animatorController.SetBool("lookingTop", true);
                 if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordTop");
@@ -158,7 +172,7 @@ public class PlayerController : MonoBehaviour {
                 }
                 break;
 
-            case Direction.BOTTOM:
+            case Direction.DOWN:
                 animatorController.SetBool("lookingBottom", true);
                 if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordBottom");
@@ -213,6 +227,7 @@ public class PlayerController : MonoBehaviour {
         treasureValue += value;
     }
 
+    //Set the direction using the point of view transform
     void SetDirection() {
         if(Mathf.Abs(sightPoint.transform.forward.x) > Mathf.Abs(sightPoint.transform.forward.y)) {
             if(sightPoint.transform.forward.x > 0) {
@@ -222,9 +237,9 @@ public class PlayerController : MonoBehaviour {
             }
         } else {
             if(sightPoint.transform.forward.y > 0) {
-                direction = Direction.TOP;
+                direction = Direction.UP;
             } else {
-                direction = Direction.BOTTOM;
+                direction = Direction.DOWN;
             }
         }
     }

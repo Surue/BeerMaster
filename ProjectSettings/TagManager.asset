@@ -7,6 +7,7 @@ TagManager:
   - Spider
   - Bat
   - EndLevel
+  - StartLevel
   layers:
   - Default
   - TransparentFX
