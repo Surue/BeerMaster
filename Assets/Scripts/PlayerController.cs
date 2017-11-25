@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour {
     private HealthBarController healthBarController;
     private int treasureValue = 0;
 
+    private GameManager gameManager;
+
     private KeyController keyController;
 
     //Variable for attack with sword
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        gameManager = FindObjectOfType<GameManager>();
         rigid = GetComponent<Rigidbody2D>();
         animatorController = GetComponent<Animator>();
 
@@ -199,6 +202,7 @@ public class PlayerController : MonoBehaviour {
         health -= damage;
 
         if(health <= 0) {
+            gameManager.Death();
             Destroy(this.gameObject);
         }
 

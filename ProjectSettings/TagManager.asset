@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Spider
   - Bat
+  - EndLevel
   layers:
   - Default
   - TransparentFX
