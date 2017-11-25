@@ -24,6 +24,7 @@ public class MonsterController : MonoBehaviour {
     protected HealthBarController healthBarController;
     protected Rigidbody2D rigid;
     protected Animator animatorController;
+    private DropController dropController;
     protected Vector3 destination;
 
     //Variable for target
@@ -103,19 +104,11 @@ public class MonsterController : MonoBehaviour {
         }
         health -= damage;
         if (health <= 0) {
-            DropTreasure();
+            dropController.DropTreasure();
             Destroy(this.gameObject);
         }
 
         healthBarController.UpdateHealthBar(health);
-    }
-
-    void DropTreasure() {
-        int value = (int)(Random.value * treasureValue);
-        for (int i = 0; i < value; i++) {
-            Vector3 tmpPosition = (Vector3)Random.insideUnitCircle / 3 + transform.position;
-            Instantiate(coinPrefab, tmpPosition, Quaternion.identity);
-        }
     }
 
     protected virtual void CheckPlayerPresence() {

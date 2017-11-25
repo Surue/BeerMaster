@@ -15,6 +15,8 @@ public class SpiderController : MonsterController {
         healthBarController.SetMaxHealth(health);
 
         animatorController = GetComponent<Animator>();
+
+        dropController = GetComponent<DropController>();
     }
 	
 	// Update is called once per frame

@@ -12,7 +12,7 @@ public class LockableController : MonoBehaviour {
 
     private PlayerController player;
     private KeyController playerKeyController;
-    private TreasureController treasure; //Null if is not a treasure
+    private DropController treasure; //Null if is not a treasure
     private Animator animatorController;
 
     private bool IsLocked = true;
@@ -28,7 +28,7 @@ public class LockableController : MonoBehaviour {
         player = FindObjectOfType<PlayerController>();
         playerKeyController = player.GetComponent<KeyController>();
 
-        treasure = GetComponent<TreasureController>();
+        treasure = GetComponent<DropController>();
     }
 	
 	// Update is called once per frame

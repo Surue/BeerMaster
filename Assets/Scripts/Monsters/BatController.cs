@@ -127,7 +127,7 @@ public class BatController : MonsterController {
         return tmpDestination;
     }
 
-    void CheckPlayerPresence() {
+    protected override void CheckPlayerPresence() {
         RaycastHit2D hitPlayer = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Mathf.Infinity, 1 << LayerMask.NameToLayer("Player"));
         Debug.DrawRay(transform.position, sightPoint.transform.forward);
         if (hitPlayer.collider != null) {

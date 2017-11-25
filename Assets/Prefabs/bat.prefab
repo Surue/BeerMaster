@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 61415997919836022}
   - component: {fileID: 50339737234877778}
   - component: {fileID: 61649896854880996}
+  - component: {fileID: 114198924268389772}
   m_Layer: 9
   m_Name: bat
   m_TagString: Bat
@@ -121,7 +122,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1599282887827052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.66, y: -1.84, z: 0}
+  m_LocalPosition: {x: 0.56026983, y: -6.5552583, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224774950687703260}
@@ -216,6 +217,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114198924268389772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1599282887827052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91550924aac8ae542b65998f2c645bb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  valueTreasure: 0
+  coinPrefab: {fileID: 0}
+  placeToDrop: {fileID: 0}
 --- !u!114 &114289171001948728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -319,7 +334,7 @@ MonoBehaviour:
   health: 20
   sightPoint: {fileID: 1026232608931560}
   attackPoint: 2
-  maxValue: 5
+  treasureValue: 0
   coinPrefab: {fileID: 1107770307225412, guid: eb9a2782cba7af142a8cd8c3bd043dc8, type: 2}
 --- !u!114 &114894868179188508
 MonoBehaviour:

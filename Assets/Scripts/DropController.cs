@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TreasureController : MonoBehaviour {
+public class DropController : MonoBehaviour {
 
     [SerializeField]
     private int valueTreasure;
@@ -13,7 +13,9 @@ public class TreasureController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+		if(placeToDrop == null) {
+            placeToDrop = gameObject;
+        }
 	}
 	
 	// Update is called once per frame
