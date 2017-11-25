@@ -24,7 +24,7 @@ public class MonsterController : MonoBehaviour {
     protected HealthBarController healthBarController;
     protected Rigidbody2D rigid;
     protected Animator animatorController;
-    private DropController dropController;
+    protected DropController dropController;
     protected Vector3 destination;
 
     //Variable for target

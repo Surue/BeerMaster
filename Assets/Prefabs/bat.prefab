@@ -228,8 +228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91550924aac8ae542b65998f2c645bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  valueTreasure: 0
-  coinPrefab: {fileID: 0}
+  valueTreasure: 5
+  coinPrefab: {fileID: 1107770307225412, guid: eb9a2782cba7af142a8cd8c3bd043dc8, type: 2}
   placeToDrop: {fileID: 0}
 --- !u!114 &114289171001948728
 MonoBehaviour:

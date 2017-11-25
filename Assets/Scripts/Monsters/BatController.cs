@@ -21,6 +21,8 @@ public class BatController : MonsterController {
         healthBarController.SetMaxHealth(health);
 
         speedChasing = speed * 1.5f;
+
+        dropController = GetComponent<DropController>();
     }
 
     // Update is called once per frame
