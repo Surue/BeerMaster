@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class KeyController : MonoBehaviour {
-
-    [SerializeField]
-    Sprite sourceImage;
+    
     [SerializeField]
     Image keyImagePrefab;
     [SerializeField]
     GameObject positionToPlaceKeySprite;
+    [SerializeField]
+    GameObject canvas;
 
 
     private int keyInInventory = 0;
@@ -19,33 +19,32 @@ public class KeyController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Image test = Instantiate(
-            keyImagePrefab,
-            positionToPlaceKeySprite.transform.position,
-            Quaternion.identity);
-        test.sprite = sourceImage;
+        spritsDisplayed = new List<Image>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
     public void AddKey()
     {
         keyInInventory++;
-        spritsDisplayed.Add(Instantiate(
-            keyImagePrefab, 
-            new Vector3(positionToPlaceKeySprite.transform.position.x + keyInInventory* keyImagePrefab.GetComponent<RectTransform>().rect.width,
-                        positionToPlaceKeySprite.transform.position.y,
-                        positionToPlaceKeySprite.transform.position.z), 
-            Quaternion.identity));
+
+        Image tmpKeyImage = Instantiate(
+            keyImagePrefab,
+            positionToPlaceKeySprite.transform.position + new Vector3(0, 32 * keyInInventory,0),
+            Quaternion.identity);
+
+        tmpKeyImage.transform.SetParent(canvas.transform, true);
+
+        spritsDisplayed.Add(tmpKeyImage);
     }
 
     public void UseKey()
     {
         keyInInventory--;
-        spritsDisplayed[keyInInventory + 1] = null;
+        Destroy(spritsDisplayed[spritsDisplayed.Count - 1]);
+        spritsDisplayed.RemoveAt(spritsDisplayed.Count - 1);
     }
 
     public bool HasKey()
