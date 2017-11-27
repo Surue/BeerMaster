@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 212149114968211434}
   - component: {fileID: 95267558479178660}
   - component: {fileID: 61657589158349418}
-  - component: {fileID: 114094847846390138}
-  m_Layer: 12
+  - component: {fileID: 114837403202411096}
+  m_Layer: 10
   m_Name: doors
-  m_TagString: Untagged
+  m_TagString: Lockable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +85,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114094847846390138
+--- !u!114 &114837403202411096
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

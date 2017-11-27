@@ -15,6 +15,9 @@ public class LockableController : MonoBehaviour {
     private DropController treasure; //Null if is not a treasure
     private Animator animatorController;
 
+    bool lostSight = false;
+    bool inSight = false;
+
     private bool IsLocked = true;
 
     private enum Type {
@@ -27,7 +30,6 @@ public class LockableController : MonoBehaviour {
         animatorController = GetComponent<Animator>();
         player = FindObjectOfType<PlayerController>();
         playerKeyController = player.GetComponent<KeyController>();
-
         treasure = GetComponent<DropController>();
     }
 	
@@ -38,9 +40,10 @@ public class LockableController : MonoBehaviour {
             if(Input.GetButtonDown("Use")) {
                 hasPressedF = true;
             }
-
-            textToDisplay.text = "";
+            
             if(player.IsLookingAt(this.gameObject)) {
+                lostSight = false;
+                inSight = true;
                 if(playerKeyController.HasKey()) {
                     textToDisplay.text = "Appuyer sur F ou L1 pour ouvrir";
                     if(hasPressedF) {
@@ -49,6 +52,7 @@ public class LockableController : MonoBehaviour {
                         playerKeyController.UseKey();
 
                         switch(type) {
+                            //If it's a chest => drop treasure
                             case Type.CHEST:
                                 treasure.DropTreasure();
                                 IsLocked = false;
@@ -64,7 +68,16 @@ public class LockableController : MonoBehaviour {
                 } else {
                     textToDisplay.text = "Il vous faut une clé pour ouvrir";
                 }
+            } else {
+                if(inSight) {
+                    inSight = false;
+                    lostSight = true;
+                }
             }
+        }
+
+        if(lostSight) {
+            textToDisplay.text = "";
         }
     }
 }

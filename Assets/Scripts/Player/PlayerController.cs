@@ -227,7 +227,15 @@ public class PlayerController : MonoBehaviour {
     }
 
     public bool IsLookingAt(GameObject gameObject) {
-        return Physics2D.Raycast(transform.position, sightPoint.transform.forward, 1, 1 << LayerMask.NameToLayer("Item"));
+        RaycastHit2D[] hitGameObject = Physics2D.RaycastAll(transform.position, sightPoint.transform.forward, 1);
+        
+        foreach(RaycastHit2D gameObjectTested in hitGameObject) { 
+            if(GameObject.ReferenceEquals(gameObjectTested.collider.gameObject, gameObject)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void TakeDamage(int damage) {

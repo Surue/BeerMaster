@@ -11,6 +11,8 @@ TagManager:
   - Spawn
   - Crate
   - MiniSpider
+  - Door
+  - Lockable
   layers:
   - Default
   - TransparentFX
