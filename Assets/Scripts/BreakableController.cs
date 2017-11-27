@@ -22,7 +22,9 @@ public class BreakableController : MonoBehaviour {
     public void TakeHit() {
         hitTaken++;
         if(hitTaken >= sprites.Length) {
-            dropController.DropTreasure();
+            if(dropController != null) {
+                dropController.DropTreasure();
+            }
             Destroy(gameObject);
         } else {
             spriteRenderer.sprite = sprites[hitTaken];

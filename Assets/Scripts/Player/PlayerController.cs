@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour {
 
     private int maxHealth;
     private HealthBarController healthBarController;
-    private int treasureValue = 0;
+    private InfoPlayer infoPlayer;
 
     private GameManager gameManager;
 
@@ -72,6 +72,8 @@ public class PlayerController : MonoBehaviour {
         {
             Debug.LogError("A key controller is missing");
         }
+
+        infoPlayer = GameObject.FindObjectOfType<InfoPlayer>();
 
         //the player position is set to the startLevel point
         rigid.position = GameObject.FindGameObjectWithTag("StartLevel").transform.position;
@@ -250,7 +252,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void AddToTreasure(int value) {
-        treasureValue += value;
+        infoPlayer.AddScore(value);
     }
 
     //Set the direction using the point of view transform

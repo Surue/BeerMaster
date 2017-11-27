@@ -12,8 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/deadScreen.unity
     guid: c3d5706245e60ad45b9c4a631421e9e8
   - enabled: 1
-    path: Assets/Scenes/Test_Level.unity
-    guid: 070ce8a5b07cac645af05342f3947e28
+    path: Assets/Scenes/level00.unity
+    guid: acacf2a89e0b4224f9cf288be01570ee
   - enabled: 1
     path: Assets/Scenes/winScreen.unity
     guid: 5043bec1df0a1614db14cbf49f1f1205
