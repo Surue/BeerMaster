@@ -181,7 +181,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2397723}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -337.5, y: -93.3, z: 0}
+  m_LocalPosition: {x: -507, y: -206, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1191519589}
@@ -189,7 +189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -337.5, y: -93.3}
+  m_AnchoredPosition: {x: -507, y: -206}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &5962302
@@ -8238,7 +8238,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 614537113}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -241.5, y: -153, z: 0}
+  m_LocalPosition: {x: -431, y: -259.5, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 1191519589}
@@ -12517,7 +12517,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1030611188}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -179, z: 0}
+  m_LocalPosition: {x: 0, y: -285.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1191519589}
@@ -13722,7 +13722,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1191519585}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 378.5, y: 213, z: 0}
+  m_LocalPosition: {x: 568, y: 319.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 614537114}
@@ -15736,7 +15736,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1395516437}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -230.4, y: -157.59999, z: 0}
+  m_LocalPosition: {x: -419.9, y: -264.1, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 1191519589}
@@ -19559,7 +19559,7 @@ Prefab:
         type: 2}
       propertyPath: keyImagePrefab
       value: 
-      objectReference: {fileID: 114500200591944494, guid: c89345d98c63901408eba51393dd3e84,
+      objectReference: {fileID: 114955545665265012, guid: ef87ab038f0554d44bd70dbe1e34ce4b,
         type: 2}
     - target: {fileID: 114537913656048448, guid: 41d5c3b0448f91542b3f8527a457618f,
         type: 2}
@@ -19567,6 +19567,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300012, guid: 779e7b4f02aea4e4abb2959fa1eb5733,
         type: 3}
+    - target: {fileID: 114537913656048448, guid: 41d5c3b0448f91542b3f8527a457618f,
+        type: 2}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1191519585}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 41d5c3b0448f91542b3f8527a457618f, type: 2}
   m_IsPrefabParent: 0
