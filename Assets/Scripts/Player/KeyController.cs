@@ -6,13 +6,24 @@ using UnityEngine.UI;
 public class KeyController : MonoBehaviour {
 
     [SerializeField]
-    private Text keyNumberText;
+    Sprite sourceImage;
+    [SerializeField]
+    Image keyImagePrefab;
+    [SerializeField]
+    GameObject positionToPlaceKeySprite;
+
 
     private int keyInInventory = 0;
 
+    List<Image> spritsDisplayed;
+
     // Use this for initialization
     void Start () {
-        DisplayKeyNumber();
+        Image test = Instantiate(
+            keyImagePrefab,
+            positionToPlaceKeySprite.transform.position,
+            Quaternion.identity);
+        test.sprite = sourceImage;
     }
 	
 	// Update is called once per frame
@@ -23,29 +34,22 @@ public class KeyController : MonoBehaviour {
     public void AddKey()
     {
         keyInInventory++;
-        DisplayKeyNumber();
+        spritsDisplayed.Add(Instantiate(
+            keyImagePrefab, 
+            new Vector3(positionToPlaceKeySprite.transform.position.x + keyInInventory* keyImagePrefab.GetComponent<RectTransform>().rect.width,
+                        positionToPlaceKeySprite.transform.position.y,
+                        positionToPlaceKeySprite.transform.position.z), 
+            Quaternion.identity));
     }
 
     public void UseKey()
     {
         keyInInventory--;
-        DisplayKeyNumber();
+        spritsDisplayed[keyInInventory + 1] = null;
     }
 
     public bool HasKey()
     {
         return keyInInventory > 0;
-    }
-
-    void DisplayKeyNumber()
-    {
-        if (keyInInventory == 0)
-        {
-            keyNumberText.text = "";
-        }
-        else
-        {
-            keyNumberText.text = keyInInventory.ToString();
-        }
     }
 }

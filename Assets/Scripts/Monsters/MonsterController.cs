@@ -97,6 +97,15 @@ public class MonsterController : MonoBehaviour {
     }
 
     protected virtual void CheckPlayerPresence() {
+        RaycastHit2D hitPlayer = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Mathf.Infinity, 1 << LayerMask.NameToLayer("Player"));
+        Debug.DrawRay(transform.position, sightPoint.transform.forward);
+        if(hitPlayer.collider != null) {
+
+            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Vector2.Distance(transform.position, hitPlayer.transform.position), 1 << LayerMask.NameToLayer("Wall"));
+            if(hitWall.collider == null) {
+                target = hitPlayer.collider.gameObject.GetComponent<PlayerController>();
+            }
+        }
     }
 
     //When monster moving, test if the player is near, if it's the case then the player take damage
