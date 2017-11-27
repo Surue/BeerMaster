@@ -8,6 +8,15 @@ public class BatController : MonsterController {
     //Variable for target
     private float speedChasing;
 
+    enum State {
+        IDLE,
+        MOVING,
+        CHASE,
+        ATTACKING
+    }
+
+    State state = State.IDLE;
+
     // Use this for initialization
     void Start() {
         rigid = GetComponent<Rigidbody2D>();
@@ -53,16 +62,23 @@ public class BatController : MonsterController {
                     Quaternion rotation1 = Quaternion.LookRotation(pos1, Vector3.forward);
                     StartCoroutine(LerpRotation(rotation1));
                 }
+
+                if(target != null) {
+                    state = State.CHASE;
+                }
                 break;
 
             case State.MOVING:
                 
-                if(Vector3.Distance(transform.position, destination) <= 0.3f) {
+                if(Vector3.Distance(transform.position, destination) <= 0.2f) {
                     state = State.IDLE;
                 } else {
                     rigid.velocity = (destination - transform.position ).normalized * speed;
                 }
 
+                if(target != null) {
+                    state = State.CHASE;
+                }
                 break;
 
             case State.CHASE:
@@ -112,7 +128,7 @@ public class BatController : MonsterController {
         while(!find) {
             tmpDestination = (Vector3)Random.insideUnitCircle * 2 + transform.position;
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2, 1 << LayerMask.NameToLayer("Wall"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2.5f, 1 << LayerMask.NameToLayer("Wall"));
             //Debug.DrawRay(transform.position, tmpDestination - transform.position, Color.red, 1.5f);
             if(hit.collider == null) {
                 find = true;
@@ -137,7 +153,6 @@ public class BatController : MonsterController {
             RaycastHit2D hitWall = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Vector2.Distance(transform.position, hitPlayer.transform.position), 1 << LayerMask.NameToLayer("Wall"));
             if (hitWall.collider == null) {
                 target = hitPlayer.collider.gameObject.GetComponent<PlayerController>();
-                state = State.CHASE;
                 destination = hitPlayer.transform.position;
             }
         }

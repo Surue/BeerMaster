@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class SpiderController : MonsterController {
 
+    [Header("IA")]
+    [SerializeField]
+    GameObject nest;
+    [SerializeField]
+    GameObject prefabMiniSpider;
+
+
 	// Use this for initialization
 	void Start () {
         rigid = GetComponent<Rigidbody2D>();
@@ -18,18 +25,24 @@ public class SpiderController : MonsterController {
 
         dropController = GetComponent<DropController>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    enum State {
+        IDLE,
+        MOVING,
+        CHASE,
+        ATTACKING,
+        GO_TO_NEST
+    }
+    State state = State.IDLE;
+
+    // Update is called once per frame
+    void Update () {
         Debug.DrawRay(transform.position, sightPoint.transform.forward);
         SetDirection();
 
         //Detection of Player in sight
         if (target == null) {
             CheckPlayerPresence();
-        }
-        else {
-            destination = target.transform.position;
         }
 
         switch (state) {
@@ -48,17 +61,35 @@ public class SpiderController : MonsterController {
                     Quaternion rotation1 = Quaternion.LookRotation(pos1, Vector3.forward);
                     StartCoroutine(LerpRotation(rotation1));
                 }
+
+                if(target != null) {
+                    destination = nest.transform.position;
+                    state = State.GO_TO_NEST;
+                }
                 break;
 
             case State.MOVING:
 
-                if (Vector3.Distance(transform.position, destination) <= 0.3f) {
+                if (Vector3.Distance(transform.position, destination) <= 0.2f) {
                     state = State.IDLE;
                 }
                 else {
                     rigid.velocity = (destination - transform.position).normalized * speed;
                 }
 
+                if(target != null) {
+                    destination = nest.transform.position;
+                    state = State.GO_TO_NEST;
+                }
+                break;
+
+            case State.GO_TO_NEST:
+                rigid.velocity = ( destination - transform.position ).normalized * speed;
+                if(Vector3.Distance(transform.position, destination) <= 0.2f) {
+                    Destroy(nest);
+                    SpawnMiniSpider();
+                    state = State.CHASE;
+                }
                 break;
 
             case State.CHASE:
@@ -96,10 +127,9 @@ public class SpiderController : MonsterController {
         int i = 0;
 
         while (!find) {
-            tmpDestination = (Vector3)Random.insideUnitCircle * 2 + transform.position;
+            tmpDestination = (Vector3)Random.insideUnitCircle * 1.5f + nest.transform.position;
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2, 1 << LayerMask.NameToLayer("Wall"));
-            //Debug.DrawRay(transform.position, tmpDestination - transform.position, Color.red, 1.5f);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, tmpDestination - nest.transform.position, 2f, 1 << LayerMask.NameToLayer("Wall"));
             if (hit.collider == null) {
                 find = true;
             }
@@ -126,9 +156,23 @@ public class SpiderController : MonsterController {
             if (hitWall.collider == null)
             {
                 target = hitPlayer.collider.gameObject.GetComponent<PlayerController>();
-                state = State.CHASE;
-                destination = hitPlayer.transform.position;
             }
         }
     }
+    private void OnDrawGizmos() {
+        //Debug affichage zone attaque
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(transform.position + sightPoint.transform.forward/3, 0.3f);
+
+        //Debug affichage destination
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(destination, 0.1f);
+    }
+
+    void SpawnMiniSpider() {
+        for(int i = 0; i < 5; i++) {
+            Instantiate(prefabMiniSpider, nest.transform.position, Quaternion.identity).GetComponent<MiniSpiderController>().SetTarget(target);
+        }
+    }
+
 }

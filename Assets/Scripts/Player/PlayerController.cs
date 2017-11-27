@@ -209,6 +209,10 @@ public class PlayerController : MonoBehaviour {
             if(enemi.tag == "Bat") {
                 enemi.GetComponent<BatController>().TakeDamage(attackPoint);
             }
+
+            if(enemi.tag == "MiniSpider") { 
+                enemi.GetComponent<MiniSpiderController>().TakeDamage(attackPoint);
+            }
         }
     }
 

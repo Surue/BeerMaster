@@ -14,13 +14,7 @@ public class MonsterController : MonoBehaviour {
     protected GameObject sightPoint;
     [SerializeField]
     private int attackPoint = 1;
-    [Header("Loot")]
-    [SerializeField]
-    private int treasureValue;
-    [SerializeField]
-    private GameObject coinPrefab;
-
-    private int maxHealth;
+    
     protected HealthBarController healthBarController;
     protected Rigidbody2D rigid;
     protected Animator animatorController;
@@ -42,15 +36,7 @@ public class MonsterController : MonoBehaviour {
         DOWN
     }
 
-    protected enum State {
-        IDLE,
-        MOVING,
-        CHASE,
-        ATTACKING
-    }
-
     protected Direction direction;
-    protected State state = State.IDLE;
 
     // Use this for initialization
     void Start() {
@@ -99,31 +85,18 @@ public class MonsterController : MonoBehaviour {
 
             foreach (Collider2D collider in colliders) {
                 target = collider.gameObject.GetComponent<PlayerController>();
-                state = State.CHASE;
             }
         }
         health -= damage;
         if (health <= 0) {
             dropController.DropTreasure();
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         healthBarController.UpdateHealthBar(health);
     }
 
     protected virtual void CheckPlayerPresence() {
-        RaycastHit2D hitPlayer = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Mathf.Infinity, 1 << LayerMask.NameToLayer("Player"));
-        Debug.DrawRay(transform.position, sightPoint.transform.forward);
-        if (hitPlayer.collider != null) {
-
-            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Vector2.Distance(transform.position, hitPlayer.transform.position), 1 << LayerMask.NameToLayer("Wall"));
-            if (hitWall.collider == null) {
-                Debug.Log("Player vu");
-                target = hitPlayer.collider.gameObject.GetComponent<PlayerController>();
-                state = State.CHASE;
-                destination = hitPlayer.transform.position;
-            }
-        }
     }
 
     //When monster moving, test if the player is near, if it's the case then the player take damage
