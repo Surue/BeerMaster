@@ -153,6 +153,7 @@ public class PlayerController : MonoBehaviour {
                 if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordLeft");
                     CheckEnemiesTouched();
+                    CheckCrateTouched();
                 }
                 break;
 
@@ -161,6 +162,7 @@ public class PlayerController : MonoBehaviour {
                 if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordRight");
                     CheckEnemiesTouched();
+                    CheckCrateTouched();
                 }
                 break;
 
@@ -169,6 +171,7 @@ public class PlayerController : MonoBehaviour {
                 if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordTop");
                     CheckEnemiesTouched();
+                    CheckCrateTouched();
                 }
                 break;
 
@@ -177,6 +180,7 @@ public class PlayerController : MonoBehaviour {
                 if(attackWithSword) {
                     animatorController.SetTrigger("attackSwordBottom");
                     CheckEnemiesTouched();
+                    CheckCrateTouched();
                 }
                 break;
 
@@ -204,6 +208,15 @@ public class PlayerController : MonoBehaviour {
             
             if(enemi.tag == "Bat") {
                 enemi.GetComponent<BatController>().TakeDamage(attackPoint);
+            }
+        }
+    }
+
+    void CheckCrateTouched() {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward, swordRange, 1 << LayerMask.NameToLayer("Item"));
+        foreach(Collider2D crate in colliders) {
+            if(crate.CompareTag("Crate")) {
+                crate.GetComponent<BreakableController>().TakeHit();
             }
         }
     }

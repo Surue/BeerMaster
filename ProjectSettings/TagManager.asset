@@ -8,6 +8,8 @@ TagManager:
   - Bat
   - EndLevel
   - StartLevel
+  - Spawn
+  - Crate
   layers:
   - Default
   - TransparentFX
