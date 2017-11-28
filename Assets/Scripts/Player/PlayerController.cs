@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rigid;
     private Animator animatorController;
 
+    PlayerSoundsManager playerSoundsManager;
     private HealthBarController healthBarController;
     private InfoPlayer infoPlayer;
 
@@ -70,6 +71,8 @@ public class PlayerController : MonoBehaviour {
             Debug.LogError("A key controller is missing");
         }
 
+        playerSoundsManager = GetComponent<PlayerSoundsManager>();
+
         infoPlayer = GameObject.FindObjectOfType<InfoPlayer>();
 
         //the player position is set to the startLevel point
@@ -116,9 +119,14 @@ public class PlayerController : MonoBehaviour {
         sightPoint.transform.rotation = Quaternion.LookRotation(pos);
         SetDirection();
 
+        if(horizontalInput != 0 || verticalInput != 0) {
+            playerSoundsManager.StepSound();
+        }
+
         //Player attacke with sword
         if(Input.GetButtonDown("Fire1") && !isAttackingAnimation) {
             attackWithSword = true;
+            playerSoundsManager.SwordSound();
         }
 
         //Manage animation
@@ -246,6 +254,8 @@ public class PlayerController : MonoBehaviour {
         }
 
         healthBarController.UpdateHealthBar(health);
+
+        playerSoundsManager.ArmorSound();
     }
 
     public void AddToTreasure(int value) {
