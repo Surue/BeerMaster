@@ -14,6 +14,7 @@ TagManager:
   - Door
   - Lockable
   - ScoreText
+  - Nest
   layers:
   - Default
   - TransparentFX
