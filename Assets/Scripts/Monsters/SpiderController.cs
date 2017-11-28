@@ -78,8 +78,13 @@ public class SpiderController : MonsterController {
                 }
 
                 if(target != null) {
-                    destination = nest.transform.position;
-                    state = State.GO_TO_NEST;
+                    if(nest != null) {
+                        destination = nest.transform.position;
+                        state = State.GO_TO_NEST;
+                    } else {
+                        destination = target.transform.position;
+                        state = State.CHASE;
+                    }
                 }
                 break;
 
