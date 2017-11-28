@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour {
 
     //Call when player attack, if a monster is detected then it take damage
     void CheckEnemiesTouched() {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward, swordRange, 1 << LayerMask.NameToLayer("Enemies"));
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + (sightPoint.transform.forward/2), swordRange, 1 << LayerMask.NameToLayer("Enemies"));
         List<GameObject> enemies = new List<GameObject>();
         
         //Check all collider and ignore if already in the list
@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void CheckCrateTouched() {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward, 0.5f, 1 << LayerMask.NameToLayer("Item"));
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward/3, 0.5f, 1 << LayerMask.NameToLayer("Item"));
         foreach(Collider2D crate in colliders) {
             if(crate.CompareTag("Crate")) {
                 crate.GetComponent<BreakableController>().TakeHit();
