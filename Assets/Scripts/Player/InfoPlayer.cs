@@ -19,9 +19,11 @@ public class InfoPlayer : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	public void ResetScore() {
+        if(score != 0) {
+            score = 0;
+        }
+    }
 
     public void AddScore(int value) {
         score += value;

@@ -24,7 +24,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartGame() {
-        SceneManager.LoadScene("Test_Level");
+        SceneManager.LoadScene("level00");
+        if(FindObjectOfType<InfoPlayer>() != null) {
+            FindObjectOfType<InfoPlayer>().ResetScore();
+        }
     }
 
     //When you die, load this screen
