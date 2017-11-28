@@ -24,8 +24,8 @@ public class DropController : MonoBehaviour {
 	}
 
     public void DropTreasure() {
+        ItemSoundManager.Instance.CoinSound();
         if(placeToDrop == null) {
-            Debug.Log("Pas de place to drop");
             placeToDrop = this.gameObject;
         }
         for(int i = 0; i < valueTreasure; i++) {

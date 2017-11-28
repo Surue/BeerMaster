@@ -60,6 +60,7 @@ public class LockableController : MonoBehaviour {
 
                             //If it's a door => delete collider
                             case Type.DOOR:
+                                ItemSoundManager.Instance.DoorSound();
                                 GetComponent<Collider2D>().enabled = false;
                                 IsLocked = false;
                                 break;

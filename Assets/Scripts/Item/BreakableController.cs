@@ -20,6 +20,8 @@ public class BreakableController : MonoBehaviour {
     }
 
     public void TakeHit() {
+        ItemSoundManager.Instance.WoodHitSound();
+
         hitTaken++;
         if(hitTaken >= sprites.Length) {
             if(dropController != null) {

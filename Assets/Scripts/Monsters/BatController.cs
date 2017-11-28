@@ -116,7 +116,6 @@ public class BatController : MonsterController {
                 if(batSoundsManager.FinishDieSound()) {
                     Destroy(gameObject);
                 }
-                Debug.Log("dying");
                 break;
         }
 

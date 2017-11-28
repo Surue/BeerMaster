@@ -43,7 +43,6 @@ public class BatSoundManager : MonoBehaviour {
         int indexSoundRandom = Random.Range(0, dieSounds.Length);
 
         if(!audioSource.isPlaying) {
-            audioSource.volume = 1;
             audioSource.clip = dieSounds[indexSoundRandom];
             audioSource.Play();
         }
