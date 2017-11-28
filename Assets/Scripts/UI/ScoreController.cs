@@ -29,6 +29,9 @@ public class ScoreController : MonoBehaviour {
         if(scoreText.IsDestroyed() && (gameManager.IsMenuScene() || gameManager.IsDeadScreenScene())) {
             scoreText = GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>();
         }else if(currentScore < infoPlayer.GetScore()) {
+            if(scoreText.IsDestroyed()) {
+                scoreText = GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>();
+            }
             currentScore++;
             scoreText.text = currentScore.ToString();
         }
