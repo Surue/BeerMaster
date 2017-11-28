@@ -13,6 +13,12 @@ public class EnvironnementSoundManager : MonoBehaviour {
     [SerializeField]
     AudioSource audioSourceDungeon;
 
+    const int minSecondsBetweenDropletSound = 10;
+    const int maxSecondsBetweenDropletSound = 40;
+
+    const int minSecondsBetweenDungeonSound = 30;
+    const int maxSecondsBetweenDungeonSound = 70;
+
     // Use this for initialization
     void Start () {
         StartCoroutine(RandomDropletSounds());
@@ -21,7 +27,7 @@ public class EnvironnementSoundManager : MonoBehaviour {
 	
 	IEnumerator RandomDropletSounds() {
         while(true) {
-            float seconds = Random.Range(10, 40) / 10;
+            float seconds = Random.Range(minSecondsBetweenDropletSound, maxSecondsBetweenDropletSound) / 10;
 
             yield return new WaitForSeconds(seconds);
 
@@ -37,7 +43,7 @@ public class EnvironnementSoundManager : MonoBehaviour {
 
     IEnumerator RandomDungeonSounds() {
         while(true) {
-            float seconds = Random.Range(30, 70) / 10;
+            float seconds = Random.Range(minSecondsBetweenDungeonSound, maxSecondsBetweenDungeonSound) / 10;
 
             yield return new WaitForSeconds(seconds);
 

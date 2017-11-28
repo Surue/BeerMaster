@@ -21,6 +21,8 @@ public class BatController : MonsterController {
 
     BatSoundManager batSoundsManager;
 
+    const float radiusRandomPoint = 2.0f;
+
     // Use this for initialization
     void Start() {
         rigid = GetComponent<Rigidbody2D>();
@@ -138,8 +140,8 @@ public class BatController : MonsterController {
         //Gizmos.DrawWireSphere(transform.position + sightPoint.transform.forward/3, 0.3f);
 
         //Debug affichage destination
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(destination, 0.1f);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(destination, 0.1f);
     }
 
     Vector3 RandomPoint() {
@@ -147,10 +149,10 @@ public class BatController : MonsterController {
         Vector3 tmpDestination = new Vector3();
 
         while(!find) {
-            tmpDestination = (Vector3)Random.insideUnitCircle * 2 + transform.position;
+            tmpDestination = (Vector3)Random.insideUnitCircle * radiusRandomPoint + transform.position;
 
-            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2, 1 << LayerMask.NameToLayer("Wall"));
-            RaycastHit2D hitItem = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2, 1 << LayerMask.NameToLayer("Item"));
+            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, tmpDestination - transform.position, radiusRandomPoint, 1 << LayerMask.NameToLayer("Wall"));
+            RaycastHit2D hitItem = Physics2D.Raycast(transform.position, tmpDestination - transform.position, radiusRandomPoint, 1 << LayerMask.NameToLayer("Item"));
             
             if(hitWall.collider == null && hitItem.collider == null) {
                 find = true;

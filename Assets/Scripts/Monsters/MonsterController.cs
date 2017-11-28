@@ -33,6 +33,8 @@ public class MonsterController : MonoBehaviour {
     protected float idleTimer = 2.0f;
     protected float attackTimer = .5f;
 
+    private const float radiusDivisor = 3;
+
     protected enum Direction {
         LEFT,
         RIGHT,
@@ -151,7 +153,7 @@ public class MonsterController : MonoBehaviour {
     //When monster moving, test if the player is near, if it's the case then the player take damage
     protected bool CheckPlayerTouched() {
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward / 3, 0.3f, 1 << LayerMask.NameToLayer("Player"));
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + sightPoint.transform.forward / radiusDivisor, 0.3f, 1 << LayerMask.NameToLayer("Player"));
 
         foreach (Collider2D collider in colliders) {
             target.TakeDamage(attackPoint);

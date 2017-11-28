@@ -15,6 +15,8 @@ public class KeyController : MonoBehaviour {
 
     private int keyInInventory = 0;
 
+    const int offsetYForKeyImage = 32;
+
     List<Image> spritsDisplayed;
 
     // Use this for initialization
@@ -29,10 +31,9 @@ public class KeyController : MonoBehaviour {
     public void AddKey()
     {
         keyInInventory++;
-
         Image tmpKeyImage = Instantiate(
             keyImagePrefab,
-            positionToPlaceKeySprite.transform.position + new Vector3(0, 32 * keyInInventory,0),
+            positionToPlaceKeySprite.transform.position + new Vector3(0, offsetYForKeyImage * keyInInventory,0),
             Quaternion.identity);
 
         tmpKeyImage.transform.SetParent(canvas.transform, true);

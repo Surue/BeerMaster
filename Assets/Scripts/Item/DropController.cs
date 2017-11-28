@@ -11,6 +11,8 @@ public class DropController : MonoBehaviour {
     [SerializeField]
     private GameObject placeToDrop;
 
+    private const float radiusDivisor = 3;
+
     // Use this for initialization
     void Start () {
 		if(placeToDrop == null) {
@@ -29,7 +31,7 @@ public class DropController : MonoBehaviour {
             placeToDrop = this.gameObject;
         }
         for(int i = 0; i < valueTreasure; i++) {
-            Vector3 tmpPosition = (Vector3)Random.insideUnitCircle / 3 + placeToDrop.transform.position;
+            Vector3 tmpPosition = (Vector3)Random.insideUnitCircle / radiusDivisor + placeToDrop.transform.position;
             Instantiate(coinPrefab, tmpPosition, Quaternion.identity);
         }
     }
