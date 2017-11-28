@@ -10,14 +10,18 @@ public class ScoreController : MonoBehaviour {
 
     InfoPlayer infoPlayer;
 
+    int currentScore = 0;
+
 	// Use this for initialization
 	void Start () {
         infoPlayer = GameObject.FindObjectOfType<InfoPlayer>();
-        scoreText.text = infoPlayer.GetScore().ToString();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(currentScore < infoPlayer.GetScore()) {
+            currentScore++;
+            scoreText.text = currentScore.ToString();
+        }
 	}
 }

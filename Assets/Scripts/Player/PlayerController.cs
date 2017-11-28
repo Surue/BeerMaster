@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rigid;
     private Animator animatorController;
 
-    private int maxHealth;
     private HealthBarController healthBarController;
     private InfoPlayer infoPlayer;
 
@@ -64,8 +63,6 @@ public class PlayerController : MonoBehaviour {
             Debug.LogError("A health bar is missing");
         }
         healthBarController.SetMaxHealth(health);
-
-        maxHealth = health;
 
         keyController = GetComponent<KeyController>();
         if(keyController == null)
