@@ -17,8 +17,11 @@ public class ScoreController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         infoPlayer = GameObject.FindObjectOfType<InfoPlayer>();
-        scoreText = GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>();
         gameManager = FindObjectOfType<GameManager>();
+
+        if(!gameManager.IsMenuScene() && !gameManager.IsDeadScreenScene()) {
+            scoreText = GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>();
+        }
 	}
 	
 	// Update is called once per frame
