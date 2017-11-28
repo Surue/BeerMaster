@@ -30,14 +30,22 @@ public class GameManager : MonoBehaviour {
     //When you die, load this screen
     public void Death() {
         indexLastScene = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log("die");
-        Debug.Log(indexLastScene);
         SceneManager.LoadScene("deadScreen");
     }
 
     public void LoadLastScene() {
-        Debug.Log(indexLastScene);
-        Debug.Log(SceneManager.sceneCount);
         SceneManager.LoadScene(indexLastScene);
+    }
+
+    public void LoadMenu() {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void LoadScene(string sceneName) {
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void Quit() {
+        Application.Quit();
     }
 }

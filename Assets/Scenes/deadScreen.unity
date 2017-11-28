@@ -244,7 +244,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1018202575}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.000030517578, y: -159, z: 0}
+  m_LocalPosition: {x: 1, y: -159, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1403412966}
@@ -252,7 +252,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -0.000030518, y: 54}
+  m_AnchoredPosition: {x: 1, y: 54}
   m_SizeDelta: {x: 440.8, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1018202577
@@ -287,7 +287,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Appuyer sur n'importe quelle touche pour continuer
+  m_Text: Appuyer sur n'importe quelle touche pour recommencer le niveau
 --- !u!222 &1018202578
 CanvasRenderer:
   m_ObjectHideFlags: 0
