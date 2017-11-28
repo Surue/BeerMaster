@@ -84,10 +84,6 @@ public class BatController : MonsterController {
                 if(target != null) {
                     state = State.CHASE;
                 }
-
-                if(rigid.velocity.x == 0 && rigid.velocity.y == 0) {
-                    Debug.Log("IL BOUGE PAS");
-                }
                 break;
 
             case State.CHASE:

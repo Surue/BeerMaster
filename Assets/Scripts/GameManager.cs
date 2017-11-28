@@ -8,15 +8,15 @@ public class GameManager : MonoBehaviour {
     //Variable use when the player die to load last scene
 
     private static int indexLastScene;
-	
+
     // Use this for initialization
-	void Start () {
+    void Start() {
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update() {
+
+    }
 
     //Load next Scene, all level are in order and the WinScreen is the last one in the build
     public void NextLevel() {
@@ -46,6 +46,14 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Quit() {
-        Application.Quit(); 
+        Application.Quit();
+    }
+
+    public bool IsMenuScene() {
+        return SceneManager.GetActiveScene().name == "Menu";
+    }
+
+    public bool IsDeadScreenScene() {
+        return SceneManager.GetActiveScene().name == "DeadScreen";
     }
 }
