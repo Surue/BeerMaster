@@ -22,6 +22,9 @@ public class MonsterController : MonoBehaviour {
     protected Vector3 destination;
     protected Collider2D collider2d;
 
+    protected List<Vector3> lastsPosition;
+    private const int maxLastPosition = 5;
+
     //Variable for target
     protected PlayerController target;
 
@@ -112,11 +115,37 @@ public class MonsterController : MonoBehaviour {
         Debug.DrawRay(transform.position, sightPoint.transform.forward);
         if(hitPlayer.collider != null) {
 
-            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, sightPoint.transform.forward, Vector2.Distance(transform.position, hitPlayer.transform.position), 1 << LayerMask.NameToLayer("Wall"));
+            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, 
+                                                    sightPoint.transform.forward, 
+                                                    Vector2.Distance(transform.position, hitPlayer.transform.position), 
+                                                    1 << LayerMask.NameToLayer("Wall"));
             if(hitWall.collider == null) {
                 target = hitPlayer.collider.gameObject.GetComponent<PlayerController>();
             }
         }
+    }
+
+    //Check if a certain number are all the same, if it's the case then it meen the monster is stationnary
+    protected bool IsStationnary() {
+        lastsPosition.Add(transform.position);
+        if(lastsPosition.Count > maxLastPosition) {
+            lastsPosition.RemoveAt(0);
+
+            Vector3 firstPos = new Vector3();
+
+            foreach(Vector3 pos in lastsPosition) {
+                if(firstPos == new Vector3()) {
+                    firstPos = pos;
+                } else {
+                    if(pos != firstPos) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        return false;
     }
 
     //When monster moving, test if the player is near, if it's the case then the player take damage

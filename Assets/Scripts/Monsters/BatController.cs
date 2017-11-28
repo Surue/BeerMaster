@@ -44,6 +44,8 @@ public class BatController : MonsterController {
                 break;
             }
         }
+
+        lastsPosition = new List<Vector3>();
     }
 
     // Update is called once per frame
@@ -83,6 +85,10 @@ public class BatController : MonsterController {
 
                 if(target != null) {
                     state = State.CHASE;
+                }
+
+                if(IsStationnary()) {
+                    state = State.IDLE;
                 }
                 break;
 
@@ -140,22 +146,13 @@ public class BatController : MonsterController {
         bool find = false;
         Vector3 tmpDestination = new Vector3();
 
-        int i = 0;
-
         while(!find) {
             tmpDestination = (Vector3)Random.insideUnitCircle * 2 + transform.position;
 
             RaycastHit2D hitWall = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2, 1 << LayerMask.NameToLayer("Wall"));
             RaycastHit2D hitItem = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2, 1 << LayerMask.NameToLayer("Item"));
-            //Debug.DrawRay(transform.position, tmpDestination - transform.position, Color.red, 1.5f);
+            
             if(hitWall.collider == null && hitItem.collider == null) {
-                find = true;
-            }
-
-            i++;
-
-            if(i > 100) {
-                Debug.LogError("FORCE EXIT LOOP");
                 find = true;
             }
         }

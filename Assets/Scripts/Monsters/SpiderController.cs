@@ -36,6 +36,8 @@ public class SpiderController : MonsterController {
                 break;
             }
         }
+
+        lastsPosition = new List<Vector3>();
     }
 
     enum State {
@@ -94,6 +96,10 @@ public class SpiderController : MonsterController {
                 if(target != null) {
                     destination = nest.transform.position;
                     state = State.GO_TO_NEST;
+                }
+
+                if(IsStationnary()) {
+                    state = State.IDLE;
                 }
                 break;
 

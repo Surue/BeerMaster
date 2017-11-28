@@ -32,6 +32,8 @@ public class MiniSpiderController : MonsterController {
                 break;
             }
         }
+
+        lastsPosition = new List<Vector3>();
     }
 
     // Update is called once per frame

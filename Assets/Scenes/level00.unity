@@ -21023,6 +21023,11 @@ Prefab:
       propertyPath: m_Name
       value: bat (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 61415997919836022, guid: 3df2f685b7d0539428ed51a89c69f894,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.61
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3df2f685b7d0539428ed51a89c69f894, type: 2}
   m_IsPrefabParent: 0
