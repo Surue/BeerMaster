@@ -325,6 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
+  healthBarBackground: {fileID: 0}
 --- !u!114 &114431648590708270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -353,6 +354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 114681611037012546}
+  healthBarBackground: {fileID: 114894868179188508}
 --- !u!114 &114482066737966734
 MonoBehaviour:
   m_ObjectHideFlags: 1

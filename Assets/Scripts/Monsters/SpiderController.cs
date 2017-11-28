@@ -126,7 +126,6 @@ public class SpiderController : MonsterController {
                 if(spiderSoundsManager.FinishDieSound()) {
                     Destroy(gameObject);
                 }
-                Debug.Log("dying");
                 break;
         }
         //Manage animation

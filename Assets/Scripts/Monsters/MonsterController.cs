@@ -94,6 +94,8 @@ public class MonsterController : MonoBehaviour {
         if (health <= 0) {
             dropController.DropTreasure();
             PlayDieSound();
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            healthBarController.HideHealthBar();
         }
 
         healthBarController.UpdateHealthBar(health);

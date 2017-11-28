@@ -7,6 +7,8 @@ public class HealthBarController : MonoBehaviour {
 
     [SerializeField]
     private Image healthBar;
+    [SerializeField]
+    private Image healthBarBackground;
 
     private int maxHealth;
 
@@ -16,5 +18,10 @@ public class HealthBarController : MonoBehaviour {
 
     public void UpdateHealthBar(int health) {
         healthBar.fillAmount = 1 - ( ( maxHealth - health ) / (float)maxHealth );
+    }
+
+    public void HideHealthBar() {
+        healthBar.enabled = false;
+        healthBarBackground.enabled = false;
     }
 }
