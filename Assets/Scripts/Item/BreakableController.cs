@@ -14,7 +14,6 @@ public class BreakableController : MonoBehaviour {
 
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprites[hitTaken];
 
         dropController = GetComponent<DropController>();
     }

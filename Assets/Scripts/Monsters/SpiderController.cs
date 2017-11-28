@@ -28,6 +28,14 @@ public class SpiderController : MonsterController {
         dropController = GetComponent<DropController>();
 
         spiderSoundsManager = GetComponent<SpiderSoundManager>();
+
+        Collider2D[] tmpGameObject = GetComponents<Collider2D>();
+        foreach(Collider2D coll in tmpGameObject) {
+            if(!coll.isTrigger) {
+                collider2d = coll;
+                break;
+            }
+        }
     }
 
     enum State {
@@ -76,7 +84,7 @@ public class SpiderController : MonsterController {
             case State.MOVING:
                 spiderSoundsManager.ChatteringSound();
 
-                if (Vector3.Distance(transform.position, destination) <= 0.2f) {
+                if (IsAtDestination()) {
                     state = State.IDLE;
                 }
                 else {

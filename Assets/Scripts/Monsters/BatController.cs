@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class BatController : MonsterController {
 
     //Variable for target
-    private float speedChasing;
+    [SerializeField]
+    private float speedChasing = 5;
 
     enum State {
         IDLE,
@@ -32,16 +33,21 @@ public class BatController : MonsterController {
         }
         healthBarController.SetMaxHealth(health);
 
-        speedChasing = speed * 1.5f;
-
         dropController = GetComponent<DropController>();
 
         batSoundsManager = GetComponent<BatSoundManager>();
+
+        Collider2D[] tmpGameObject = GetComponents<Collider2D>();
+        foreach(Collider2D coll in tmpGameObject) {
+            if(!coll.isTrigger) {
+                collider2d = coll;
+                break;
+            }
+        }
     }
 
     // Update is called once per frame
     void Update() {
-        Debug.DrawRay(transform.position, sightPoint.transform.forward);
         SetDirection();
 
         //Detection of Player in sight
@@ -53,20 +59,13 @@ public class BatController : MonsterController {
 
         switch(state) {
             case State.IDLE:
-                currentTimer += Time.deltaTime;
-                rigid.velocity = new Vector2(0, 0);
+                //Choose a destination
+                destination = RandomPoint();
+                state = State.MOVING;
 
-                if(currentTimer >= idleTimer) {
-                    currentTimer = 0.0f;
-
-                    //Choose a destination
-                    destination = RandomPoint();
-                    state = State.MOVING;
-
-                    Vector3 pos1 = ( destination - transform.position ).normalized;
-                    Quaternion rotation1 = Quaternion.LookRotation(pos1, Vector3.forward);
-                    StartCoroutine(LerpRotation(rotation1));
-                }
+                Vector3 pos1 = ( destination - transform.position ).normalized;
+                Quaternion rotation1 = Quaternion.LookRotation(pos1, Vector3.forward);
+                StartCoroutine(LerpRotation(rotation1));
 
                 if(target != null) {
                     state = State.CHASE;
@@ -74,10 +73,9 @@ public class BatController : MonsterController {
                 break;
 
             case State.MOVING:
-
                 batSoundsManager.WingSound();
                 
-                if(Vector3.Distance(transform.position, destination) <= 0.2f) {
+                if(IsAtDestination()) {
                     state = State.IDLE;
                 } else {
                     rigid.velocity = (destination - transform.position ).normalized * speed;
@@ -85,6 +83,10 @@ public class BatController : MonsterController {
 
                 if(target != null) {
                     state = State.CHASE;
+                }
+
+                if(rigid.velocity.x == 0 && rigid.velocity.y == 0) {
+                    Debug.Log("IL BOUGE PAS");
                 }
                 break;
 
@@ -134,8 +136,8 @@ public class BatController : MonsterController {
         //Gizmos.DrawWireSphere(transform.position + sightPoint.transform.forward/3, 0.3f);
 
         //Debug affichage destination
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(destination, 0.1f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(destination, 0.1f);
     }
 
     Vector3 RandomPoint() {
@@ -147,9 +149,10 @@ public class BatController : MonsterController {
         while(!find) {
             tmpDestination = (Vector3)Random.insideUnitCircle * 2 + transform.position;
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2.5f, 1 << LayerMask.NameToLayer("Wall"));
+            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2, 1 << LayerMask.NameToLayer("Wall"));
+            RaycastHit2D hitItem = Physics2D.Raycast(transform.position, tmpDestination - transform.position, 2, 1 << LayerMask.NameToLayer("Item"));
             //Debug.DrawRay(transform.position, tmpDestination - transform.position, Color.red, 1.5f);
-            if(hit.collider == null) {
+            if(hitWall.collider == null && hitItem.collider == null) {
                 find = true;
             }
 

@@ -20,6 +20,7 @@ public class MonsterController : MonoBehaviour {
     protected Animator animatorController;
     protected DropController dropController;
     protected Vector3 destination;
+    protected Collider2D collider2d;
 
     //Variable for target
     protected PlayerController target;
@@ -80,6 +81,10 @@ public class MonsterController : MonoBehaviour {
     }
 
     protected virtual void PlayDieSound() {
+    }
+
+    protected bool IsAtDestination() {
+        return collider2d.bounds.Contains(destination);
     }
 
     public virtual void TakeDamage(int damage) {

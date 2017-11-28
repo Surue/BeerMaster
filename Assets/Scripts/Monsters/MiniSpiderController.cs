@@ -24,6 +24,14 @@ public class MiniSpiderController : MonsterController {
         animatorController = GetComponent<Animator>();
 
         dropController = GetComponent<DropController>();
+
+        Collider2D[] tmpGameObject = GetComponents<Collider2D>();
+        foreach(Collider2D coll in tmpGameObject) {
+            if(!coll.isTrigger) {
+                collider2d = coll;
+                break;
+            }
+        }
     }
 
     // Update is called once per frame
