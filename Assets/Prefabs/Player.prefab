@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  health: 50
+  health: 100
   swordRange: 0.5
   attackPoint: 5
   sightPoint: {fileID: 1938855135552018}

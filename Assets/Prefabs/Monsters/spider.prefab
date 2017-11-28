@@ -121,8 +121,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1708283274161690}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.36, y: -3.57, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 8.02, y: 20.36, z: 0}
   m_LocalScale: {x: 0.59840983, y: 0.7, z: 1}
   m_Children:
   - {fileID: 4310513438359518}
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92aafc3b12369042a8ed1164512160d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 114665038922273714}
+  healthBar: {fileID: 0}
 --- !u!114 &114610538939269128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -361,8 +361,9 @@ MonoBehaviour:
   health: 20
   sightPoint: {fileID: 1884348033071100}
   attackPoint: 1
-  treasureValue: 10
-  coinPrefab: {fileID: 1107770307225412, guid: eb9a2782cba7af142a8cd8c3bd043dc8, type: 2}
+  nest: {fileID: 0}
+  prefabMiniSpider: {fileID: 1243425251233140, guid: eaeb820f4b589a548a1684f4533d8c65,
+    type: 2}
 --- !u!212 &212295087870558544
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -14340,12 +14340,6 @@ Prefab:
       propertyPath: nest
       value: 
       objectReference: {fileID: 117607737}
-    - target: {fileID: 114941787478924156, guid: 77975aefefc7b2046a7df8ed9072ff2b,
-        type: 2}
-      propertyPath: prefabMiniSpider
-      value: 
-      objectReference: {fileID: 1243425251233140, guid: eaeb820f4b589a548a1684f4533d8c65,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 77975aefefc7b2046a7df8ed9072ff2b, type: 2}
   m_IsPrefabParent: 0
@@ -19396,6 +19390,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114246620300813694, guid: 41d5c3b0448f91542b3f8527a457618f,
+        type: 2}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1999930404}
     - target: {fileID: 114537913656048448, guid: 41d5c3b0448f91542b3f8527a457618f,
         type: 2}
       propertyPath: positionToPlaceKeySprite
@@ -19406,11 +19405,6 @@ Prefab:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1191519585}
-    - target: {fileID: 114246620300813694, guid: 41d5c3b0448f91542b3f8527a457618f,
-        type: 2}
-      propertyPath: healthBar
-      value: 
-      objectReference: {fileID: 1999930404}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 41d5c3b0448f91542b3f8527a457618f, type: 2}
   m_IsPrefabParent: 0
@@ -21810,11 +21804,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114021246264447112, guid: 737da3d799883b146b4fc56a7307aadc,
-        type: 2}
-      propertyPath: textToDisplay
-      value: 
-      objectReference: {fileID: 1036532931}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 737da3d799883b146b4fc56a7307aadc, type: 2}
   m_IsPrefabParent: 0
@@ -22303,21 +22292,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 1708283274161690, guid: 77975aefefc7b2046a7df8ed9072ff2b, type: 2}
-      propertyPath: m_Name
-      value: spider (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 114941787478924156, guid: 77975aefefc7b2046a7df8ed9072ff2b,
         type: 2}
       propertyPath: nest
       value: 
       objectReference: {fileID: 1603714165}
-    - target: {fileID: 114941787478924156, guid: 77975aefefc7b2046a7df8ed9072ff2b,
-        type: 2}
-      propertyPath: prefabMiniSpider
-      value: 
-      objectReference: {fileID: 1243425251233140, guid: eaeb820f4b589a548a1684f4533d8c65,
-        type: 2}
+    - target: {fileID: 1708283274161690, guid: 77975aefefc7b2046a7df8ed9072ff2b, type: 2}
+      propertyPath: m_Name
+      value: spider (1)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 77975aefefc7b2046a7df8ed9072ff2b, type: 2}
   m_IsPrefabParent: 0
