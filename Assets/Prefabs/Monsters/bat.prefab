@@ -60,6 +60,8 @@ GameObject:
   - component: {fileID: 50339737234877778}
   - component: {fileID: 61649896854880996}
   - component: {fileID: 114198924268389772}
+  - component: {fileID: 82286536844148230}
+  - component: {fileID: 114634430244774458}
   m_Layer: 9
   m_Name: bat
   m_TagString: Bat
@@ -200,6 +202,86 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.94, y: 0.76}
   m_EdgeRadius: 0
+--- !u!82 &82286536844148230
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1599282887827052}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 249
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 3
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95481124619890296
 Animator:
   serializedVersion: 3
@@ -292,6 +374,32 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114634430244774458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1599282887827052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5edc0fa3bf908d54aafeef7b243634d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wingSounds:
+  - {fileID: 8300000, guid: 0a24e1a639876ad40a37cf2421237b6d, type: 3}
+  - {fileID: 8300000, guid: 61bc9b0a65251ac4e9cde0d340416340, type: 3}
+  - {fileID: 8300000, guid: 17a84fba78be2f44680c801d586a318f, type: 3}
+  - {fileID: 8300000, guid: aef4b1b7e6edd4d42ad272beef521cdc, type: 3}
+  - {fileID: 8300000, guid: c08761babd5c2d54d98801fad5f2e2a1, type: 3}
+  - {fileID: 8300000, guid: fbbb1d1ab8685414fa0f99ac904a56c5, type: 3}
+  - {fileID: 8300000, guid: 715fa003f3528d9499664b6663bbf6d7, type: 3}
+  - {fileID: 8300000, guid: d441ada790cd5e14286ede6da408815e, type: 3}
+  - {fileID: 8300000, guid: 43e3d5bbe4ecda1469693fca67842071, type: 3}
+  - {fileID: 8300000, guid: 73fbd26db55ed984fbac99e5cdbdb95e, type: 3}
+  dieSounds:
+  - {fileID: 8300000, guid: aed1d1718bdf7d8498149aab39b8fb8a, type: 3}
+  - {fileID: 8300000, guid: b686c1565b6e66b4084e34949aaf8cc6, type: 3}
+  - {fileID: 8300000, guid: a0588b3cbd408bd4383cc8359055604f, type: 3}
 --- !u!114 &114681611037012546
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -12,10 +12,13 @@ public class BatController : MonsterController {
         IDLE,
         MOVING,
         CHASE,
-        ATTACKING
+        ATTACKING,
+        DYING
     }
 
     State state = State.IDLE;
+
+    BatSoundManager batSoundsManager;
 
     // Use this for initialization
     void Start() {
@@ -32,6 +35,8 @@ public class BatController : MonsterController {
         speedChasing = speed * 1.5f;
 
         dropController = GetComponent<DropController>();
+
+        batSoundsManager = GetComponent<BatSoundManager>();
     }
 
     // Update is called once per frame
@@ -69,6 +74,8 @@ public class BatController : MonsterController {
                 break;
 
             case State.MOVING:
+
+                batSoundsManager.WingSound();
                 
                 if(Vector3.Distance(transform.position, destination) <= 0.2f) {
                     state = State.IDLE;
@@ -82,6 +89,7 @@ public class BatController : MonsterController {
                 break;
 
             case State.CHASE:
+                batSoundsManager.WingSound();
                 rigid.velocity = ( target.transform.position - transform.position ).normalized * speedChasing;
 
                 if(CheckPlayerTouched()) {
@@ -103,10 +111,22 @@ public class BatController : MonsterController {
                     state = State.CHASE;
                 }
                 break;
+
+            case State.DYING:
+                if(batSoundsManager.FinishDieSound()) {
+                    Destroy(gameObject);
+                }
+                Debug.Log("dying");
+                break;
         }
 
         //Manage animation
         ManageAnimation();
+    }
+
+    protected override void PlayDieSound() {
+        batSoundsManager.DieSound();
+        state = State.DYING;
     }
 
     private void OnDrawGizmos() {

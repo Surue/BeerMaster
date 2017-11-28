@@ -57,6 +57,24 @@ public class MiniSpiderController : MonsterController {
         ManageAnimation();
     }
 
+    public override void TakeDamage(int damage) {
+        if(target == null) {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.0f, 1 << LayerMask.NameToLayer("Player"));
+
+            foreach(Collider2D collider in colliders) {
+                target = collider.gameObject.GetComponent<PlayerController>();
+            }
+        }
+        health -= damage;
+        if(health <= 0) {
+            dropController.DropTreasure();
+            Destroy(gameObject);
+        }
+
+        healthBarController.UpdateHealthBar(health);
+
+    }
+
     public void SetTarget(PlayerController recivedTarget) {
         target = recivedTarget;
     }

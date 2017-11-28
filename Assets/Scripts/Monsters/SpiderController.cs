@@ -10,9 +10,11 @@ public class SpiderController : MonsterController {
     [SerializeField]
     GameObject prefabMiniSpider;
 
+    SpiderSoundManager spiderSoundsManager;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         rigid = GetComponent<Rigidbody2D>();
 
         healthBarController = GetComponent<HealthBarController>();
@@ -24,6 +26,8 @@ public class SpiderController : MonsterController {
         animatorController = GetComponent<Animator>();
 
         dropController = GetComponent<DropController>();
+
+        spiderSoundsManager = GetComponent<SpiderSoundManager>();
     }
 
     enum State {
@@ -31,7 +35,8 @@ public class SpiderController : MonsterController {
         MOVING,
         CHASE,
         ATTACKING,
-        GO_TO_NEST
+        GO_TO_NEST,
+        DYING
     }
     State state = State.IDLE;
 
@@ -69,6 +74,7 @@ public class SpiderController : MonsterController {
                 break;
 
             case State.MOVING:
+                spiderSoundsManager.ChatteringSound();
 
                 if (Vector3.Distance(transform.position, destination) <= 0.2f) {
                     state = State.IDLE;
@@ -93,6 +99,7 @@ public class SpiderController : MonsterController {
                 break;
 
             case State.CHASE:
+                spiderSoundsManager.ChatteringSound();
                 rigid.velocity = (target.transform.position - transform.position).normalized * speed;
 
                 if (CheckPlayerTouched()) {
@@ -113,6 +120,13 @@ public class SpiderController : MonsterController {
                 if (currentTimer >= attackTimer) {
                     state = State.CHASE;
                 }
+                break;
+
+            case State.DYING:
+                if(spiderSoundsManager.FinishDieSound()) {
+                    Destroy(gameObject);
+                }
+                Debug.Log("dying");
                 break;
         }
         //Manage animation
@@ -159,6 +173,12 @@ public class SpiderController : MonsterController {
             }
         }
     }
+
+    protected override void PlayDieSound() {
+        spiderSoundsManager.DieSound();
+        state = State.DYING;
+    }
+
     private void OnDrawGizmos() {
         //Debug affichage zone attaque
         //Gizmos.color = Color.red;

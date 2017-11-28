@@ -79,7 +79,10 @@ public class MonsterController : MonoBehaviour {
         }
     }
 
-    public void TakeDamage(int damage) {
+    protected virtual void PlayDieSound() {
+    }
+
+    public virtual void TakeDamage(int damage) {
         if (target == null) {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.0f, 1 << LayerMask.NameToLayer("Player"));
 
@@ -90,10 +93,11 @@ public class MonsterController : MonoBehaviour {
         health -= damage;
         if (health <= 0) {
             dropController.DropTreasure();
-            Destroy(gameObject);
+            PlayDieSound();
         }
 
         healthBarController.UpdateHealthBar(health);
+
     }
 
     protected virtual void CheckPlayerPresence() {
