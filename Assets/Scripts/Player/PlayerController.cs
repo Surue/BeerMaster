@@ -103,14 +103,14 @@ public class PlayerController : MonoBehaviour {
         Vector2 pos;
         if(IsThereJoystick()) {
             pos = new Vector3(Input.GetAxis("3rd Axis"), Input.GetAxis("4th Axis") * ( -1 ), 0);
-            Debug.Log(Input.GetAxis("3rd Axis")+" "+Input.GetAxis("4th Axis"));
+
             if((Input.GetAxis("3rd Axis") <= 0.05 && Input.GetAxis("3rd Axis") >= -0.05)) {
-                Debug.Log("Change x");
+                
                 pos.x = horizontalInput;
             }
                 
             if ((Input.GetAxis("4th Axis") * ( -1 ) <= 0.05 && Input.GetAxis("4th Axis") * ( -1 ) >= -0.05 )) {
-                Debug.Log("Change y");
+
                 pos.y = verticalInput;
             }
         } else {
